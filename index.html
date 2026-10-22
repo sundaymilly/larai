@@ -1,1 +1,738 @@
 
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lauretta Okonkwo · Registered Midwife</title>
+<link rel="icon" type="image/png" href="/lauretta.png">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --bg:#07111f;--panel:#0e1a2d;--card:#132640;--line:#1d3350;
+  --ink:#e8f0fa;--mute:#8ea3bf;--teal:#2dd4bf;--teal2:#0f766e;--amber:#f59e0b;
+  --header1:#0f766e;--header2:#134e4a;
+  --shadow:rgba(0,0,0,.35);
+}
+html[data-theme="light"]{
+  --bg:#f4f7fb;--panel:#ffffff;--card:#eef3f9;--line:#d6e0ec;
+  --ink:#0f172a;--mute:#5b6b83;--teal:#0d9488;--teal2:#0f766e;--amber:#d97706;
+  --header1:#0d9488;--header2:#0f766e;
+  --shadow:rgba(15,23,42,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Manrope',system-ui,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden;font-size:15px;transition:background .3s,color .3s}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(900px 500px at 90% -10%,rgba(45,212,191,.18),transparent 60%),radial-gradient(800px 500px at -10% 110%,rgba(245,158,11,.14),transparent 60%);pointer-events:none;z-index:0}
+html[data-theme="light"] body::before{opacity:.5}
+
+.shell{position:relative;height:100dvh;display:grid;grid-template-rows:auto auto 1fr auto;max-width:1180px;margin:auto;z-index:1}
+
+.top{display:flex;align-items:center;gap:18px;padding:22px 28px 14px;flex-wrap:wrap}
+.avatar{width:64px;height:64px;border-radius:18px;overflow:hidden;flex-shrink:0;
+  background:linear-gradient(135deg,var(--teal),var(--amber));cursor:pointer;
+  box-shadow:0 10px 30px rgba(45,212,191,.25);position:relative;padding:0;border:none}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar::after{content:"Tap to view";position:absolute;left:0;right:0;bottom:0;
+  font-size:9px;text-align:center;background:rgba(0,0,0,.6);color:#fff;padding:2px 0;
+  opacity:0;transition:.2s;font-weight:700}
+.avatar:hover::after,.avatar:focus-visible::after{opacity:1}
+.avatar:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.who{flex:1;min-width:200px}
+.who h1{font-size:26px;font-weight:800;letter-spacing:.02em}
+.who .hl{color:var(--teal);font-weight:600;font-size:14px;margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--ink);text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+a.chip:hover{border-color:var(--teal);color:var(--teal)}
+.chip svg{width:14px;height:14px;color:var(--teal)}
+
+.top-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.exports{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:12.5px;font-weight:700;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;transition:.2s}
+.btn svg{width:15px;height:15px}
+.btn:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-1px)}
+.btn.pri{background:var(--teal);border-color:var(--teal);color:#042f2a}
+.btn.pri:hover{color:#042f2a;filter:brightness(1.08)}
+
+.theme-toggle{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:.2s}
+.theme-toggle:hover{border-color:var(--teal);color:var(--teal)}
+.theme-toggle svg{width:20px;height:20px}
+html[data-theme="light"] .theme-toggle .moon{display:block}
+html[data-theme="light"] .theme-toggle .sun{display:none}
+.theme-toggle .moon{display:none}
+.theme-toggle .sun{display:block}
+
+.tabs{display:flex;gap:6px;padding:4px 16px 12px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;display:flex;align-items:center;gap:8px;font:inherit;font-size:13px;font-weight:700;color:var(--mute);background:transparent;border:1px solid transparent;padding:8px 14px;border-radius:12px;cursor:pointer;transition:.2s;white-space:nowrap}
+.tab small{font-size:10.5px;color:var(--mute);opacity:.7}
+.tab:hover{color:var(--ink);background:var(--panel)}
+.tab.on{color:#04211d;background:var(--teal)}
+.tab.on small{color:#04211d;opacity:.8}
+
+.track{position:relative;overflow:hidden;margin:0 14px;min-height:0}
+.slide{position:absolute;inset:0;overflow-y:auto;padding:14px 16px 24px;transition:transform .55s cubic-bezier(.2,.7,.2,1),opacity .4s ease;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.slide[data-s=future]{transform:translateX(50px);opacity:0;pointer-events:none}
+.slide[data-s=past]{transform:translateX(-50px);opacity:0;pointer-events:none}
+.slide[data-s=active]{transform:none;opacity:1}
+.inner{max-width:920px;margin:auto}
+.kick{font-size:11.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
+.ttl{font-size:30px;font-weight:800;letter-spacing:-.01em;margin:6px 0 4px}
+.sub{color:var(--mute);font-size:14px;margin-bottom:22px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin-bottom:14px}
+.lead{font-size:16px;line-height:1.8;color:var(--ink);opacity:.9}
+.lead b{color:var(--ink);opacity:1}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+.kpi{background:var(--card);border-radius:16px;padding:16px 10px;text-align:center;border:1px solid var(--line)}
+.kpi b{display:block;font-size:30px;font-weight:800;color:var(--teal)}
+.kpi span{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:18px 0 10px}
+.tline{position:relative;padding-left:26px}
+.tline::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--teal),var(--line))}
+.job{position:relative;margin-bottom:14px}
+.job::before{content:"";position:absolute;left:-24px;top:22px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--teal)}
+.jh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.jh h3{font-size:17px;font-weight:800}
+.when{font-size:12px;font-weight:700;color:#04211d;background:var(--amber);padding:4px 11px;border-radius:999px;white-space:nowrap}
+.org{color:var(--teal);font-weight:700;font-size:13.5px;margin:4px 0 10px}
+ul.b{list-style:none}
+ul.b li{position:relative;padding-left:18px;font-size:14px;line-height:1.7;color:var(--ink);opacity:.85;margin-bottom:4px}
+ul.b li::before{content:"";position:absolute;left:2px;top:.7em;width:6px;height:6px;border-radius:2px;background:var(--amber)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grp h4{font-size:13px;font-weight:800;color:var(--teal);margin-bottom:12px;letter-spacing:.02em}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:10px;background:var(--card);border:1px solid var(--line);color:var(--ink)}
+.edu{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center}
+.edu .ic{width:46px;height:46px;border-radius:14px;background:rgba(45,212,191,.12);color:var(--teal);display:grid;place-items:center}
+.edu .ic svg{width:22px;height:22px}
+.edu h3{font-size:15.5px;font-weight:800}
+.edu p{font-size:13.5px;color:var(--mute);margin-top:2px}
+.ref{display:flex;gap:14px;align-items:flex-start}
+.ref .av{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-weight:800;color:#06201c;background:linear-gradient(135deg,var(--amber),var(--teal))}
+.ref h3{font-size:15.5px;font-weight:800}
+.ref .r{font-size:13px;color:var(--mute);margin:2px 0 10px;line-height:1.5}
+.ref a{display:block;font-size:13px;color:var(--ink);text-decoration:none;margin-top:4px;word-break:break-all}
+.ref a:hover{color:var(--teal)}
+.ref a svg{width:13px;height:13px;vertical-align:-2px;margin-right:6px;color:var(--teal)}
+.big{display:grid;gap:12px}
+.row{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--ink);text-decoration:none}
+.row:hover{border-color:var(--teal)}
+.row .ic{width:40px;height:40px;border-radius:12px;background:rgba(245,158,11,.12);color:var(--amber);display:grid;place-items:center;flex-shrink:0}
+.row .ic svg{width:19px;height:19px}
+.row small{display:block;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.row span{font-size:15px;font-weight:700;word-break:break-word}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.dcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:.2s}
+.dcard:hover{border-color:var(--teal)}
+.dthumb{height:140px;background:var(--card);position:relative;display:grid;place-items:center;color:var(--amber);cursor:pointer;overflow:hidden}
+.dthumb svg{width:38px;height:38px;position:relative;z-index:0}
+.dthumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;background:var(--card)}
+.dbody{padding:12px 14px 6px;flex:1;min-width:0}
+.dbody h3{font-size:14.5px;font-weight:800;word-break:break-word;line-height:1.3}
+.dbody p{font-size:12px;color:var(--mute);margin-top:4px;word-break:break-word}
+.dbody .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.dbody .meta span{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--mute)}
+.dact{display:flex;gap:8px;padding:10px 14px 14px}
+.dact button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-size:12.5px;font-weight:700;padding:9px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.dact svg{width:14px;height:14px}
+.dact .v{background:var(--teal);border-color:var(--teal);color:#042f2a}
+.dempty{color:var(--mute);font-size:14px;padding:26px 18px;text-align:center;border:1px dashed var(--line);border-radius:16px}
+
+.vw{position:fixed;inset:0;background:rgba(3,10,20,.86);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
+.vw.on{display:flex}
+.vwin{background:var(--panel);border:1px solid var(--line);border-radius:18px;width:min(920px,100%);max-height:92dvh;display:flex;flex-direction:column;overflow:hidden}
+.vwh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.vwh h3{font-size:15px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vwh .x{background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:7px 11px;cursor:pointer;font:inherit;font-weight:700}
+.vwb{flex:1;min-height:260px;display:grid;place-items:center;padding:14px;background:var(--bg);overflow:auto}
+.vwb img{max-width:100%;max-height:68dvh;border-radius:10px}
+.vwb .nop{text-align:center;color:var(--mute);font-size:14px;line-height:1.6;max-width:460px}
+.vwf{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--line);flex-wrap:wrap}
+.vwf .url{font-size:12px;color:var(--mute);word-break:break-all;flex:1;min-width:200px}
+
+.foot{display:flex;align-items:center;gap:14px;padding:12px 16px 22px}
+.nav{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;flex-shrink:0;transition:.2s}
+.nav svg{width:18px;height:18px}
+.nav:hover:not(:disabled){border-color:var(--teal);color:var(--teal)}
+.nav:disabled{opacity:.3;cursor:default}
+.prog{flex:1;display:flex;flex-direction:column;gap:8px;min-width:0}
+.bar{height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--amber));transition:width .5s;width:0}
+.pl{font-size:12px;font-weight:700;color:var(--mute);display:flex;justify-content:space-between;gap:10px}
+
+.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;background:var(--teal);color:#04211d;font-weight:800;font-size:13px;padding:10px 18px;border-radius:999px;transition:.35s;pointer-events:none;z-index:9}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media(min-width:900px){
+  body{overflow:hidden}
+  .shell{grid-template-columns:260px 1fr;grid-template-rows:auto 1fr;gap:0 18px;padding:18px;height:100dvh}
+  .top{grid-column:1/-1;padding:8px 8px 20px}
+  .tabs{display:none}
+  .side{display:block !important;grid-column:1;grid-row:2;overflow-y:auto;padding-right:6px;scrollbar-width:thin}
+  .side .tab{width:100%;justify-content:flex-start;margin-bottom:6px;padding:12px 16px;font-size:13.5px}
+  .track{grid-column:2;grid-row:2;margin:0}
+  .foot{display:none}
+  .slide{padding:10px 20px 30px}
+  .inner{max-width:100%}
+  .ttl{font-size:34px}
+  .sub{font-size:15px}
+}
+@media(min-width:900px) and (max-width:1100px){
+  .shell{grid-template-columns:220px 1fr}
+  .who h1{font-size:22px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grid3{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:900px){
+  body{overflow:auto}
+  .shell{height:auto;min-height:100dvh;grid-template-rows:auto auto auto auto}
+  .track{height:72dvh;min-height:520px}
+  .grid3,.kpis{grid-template-columns:1fr 1fr}
+  .who h1{font-size:22px}.ttl{font-size:25px}
+  .top,.tabs,.foot{padding-left:16px;padding-right:16px}
+  .side{display:none !important}
+}
+@media(max-width:560px){
+  .grid3,.kpis{grid-template-columns:1fr}
+  .exports{width:100%}
+  .exports .btn{flex:1;justify-content:center}
+  .top-actions{width:100%;display:flex;gap:8px}
+  .theme-toggle{width:44px;height:44px;flex:0 0 auto;order:1}
+  .exports{order:2;flex:1}
+}
+@media(prefers-reduced-motion:reduce){
+  .slide{transition:none}
+  .bar i{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+ <header class="top">
+  <button class="avatar" id="avatarBtn" aria-label="View profile photo">
+    <img id="avatarImg" src="lauretta.png" alt="Lauretta Okonkwo">
+  </button>
+  <div class="who">
+   <h1 id="name"></h1>
+   <div class="hl" id="headline"></div>
+   <div class="chips" id="chips"></div>
+  </div>
+  <div class="top-actions">
+   <button class="theme-toggle" id="themeBtn" aria-label="Toggle light and dark mode">
+     <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+     <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+   </button>
+   <div class="exports">
+    <button class="btn pri" onclick="dlResume('pdf')" id="bp"></button>
+    <button class="btn" onclick="dlResume('doc')" id="bd"></button>
+    <button class="btn" onclick="dlResume('txt')" id="bt"></button>
+   </div>
+  </div>
+ </header>
+
+ <nav class="tabs" id="tabs" aria-label="Resume sections"></nav>
+ <nav class="side" id="side" aria-label="Resume sections sidebar" style="display:none"></nav>
+ <main class="track" id="track" aria-live="polite"></main>
+
+ <footer class="foot">
+  <button class="nav" id="prev" aria-label="Previous section"></button>
+  <div class="prog"><div class="pl"><span id="plabel"></span><span>Use ← → keys or swipe</span></div><div class="bar"><i id="bar"></i></div></div>
+  <button class="nav" id="next" aria-label="Next section"></button>
+ </footer>
+</div>
+
+<div class="vw" id="vw" role="dialog" aria-modal="true" aria-labelledby="vwt">
+ <div class="vwin">
+  <div class="vwh"><h3 id="vwt"></h3><button class="x" id="vwx">Close</button></div>
+  <div class="vwb" id="vwb"></div>
+  <div class="vwf"><div class="url" id="vwu"></div><a class="btn pri" id="vwo" target="_blank" rel="noopener noreferrer">Open in new tab</a></div>
+ </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= THEME ================= */
+(function initTheme(){
+  let saved=null;
+  try{saved=localStorage.getItem('lo-theme')}catch(e){}
+  if(saved==='light'||saved==='dark'){document.documentElement.setAttribute('data-theme',saved)}
+  else{
+    const prefersLight=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches;
+    document.documentElement.setAttribute('data-theme',prefersLight?'light':'dark');
+  }
+})();
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const cur=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';
+  document.documentElement.setAttribute('data-theme',cur);
+  try{localStorage.setItem('lo-theme',cur)}catch(e){}
+});
+
+/* ================= PHOTO ================= */
+const PHOTO = document.getElementById('avatarImg').getAttribute('src') || 'lauretta.png';
+document.getElementById('avatarBtn').addEventListener('click',()=>openImage(PHOTO,'Profile photo'));
+
+/* ================= RESUME LINK (used inside PDF/Word/Text exports) ================= */
+const RESUME_URL = 'https://laurettaresume.vercel.app/';
+
+/* ================= RESUME DATA ================= */
+const R={
+ name:'LAURETTA OKONKWO',
+ headline:'Registered Midwife · Monitoring & Evaluation Specialist',
+ email:'laurettalinus91@gmail.com',
+ phone:'+2348138688454',
+ addr:'MOQ1 Flat 4 Nigerian Airforce Base Yola, Adamawa State',
+ loc:'Yola, Adamawa State',
+ objective:'Dedicated and detail-oriented data management professional with over five years of progressive experience in supporting health and development projects, specializing in monitoring and evaluation, data reporting, and office coordination. I aim to leverage my strong organizational, interpersonal, and analytical skills to contribute to the effective operations of a dynamic and mission-driven organization. My goal is to support program implementation through efficient documentation, communication, and logistical support, while ensuring compliance with organizational policies and contributing to sustainable development goals. I am passionate about public service and committed to maintaining operational excellence, fostering team collaboration, and continuously improving systems that enable impactful project delivery.',
+ stats:[['5+','Years Experience'],['4','Professional Roles'],['5','Qualifications'],['3','Referees']],
+ highlights:[' Registered Midwife', 'Monitoring & Evaluation','Data Quality Assurance','LAMISplus / DHIS2','Data Reporting','Office Coordination'],
+ skills:[
+  ['Professional Skills',['Quality assurance','Data management','Organizational skills','Analytical skills','Interpersonal and written communication','Flexible and adaptable']],
+  ['Systems & Software',['LAMISplus','DHIS2','Microsoft Office']]
+ ],
+ docs:[
+  {title:'Certificate of Registration – Registered Midwife', year:'2025', org:'Nursing and Midwifery Council of Nigeria', url:'images/certificates/midwife-registration-2025.jpg'},
+  {title:'B.Tech. Laboratory Technology Certificate',          year:'2019', org:'Modibbo Adama University of Technology, Yola', url:'DEGREE STATEMENT OF RESULT_page-0001.jpg'},
+  {title:'MSc in Public Health (IN VIEW)',                   year:'2026', org:'NOUN, Yola',                                  url:'imge'},
+  {title:'Diploma – Science Laboratory Technology',          year:'2013', org:'Adamawa State Polytechnic, Yola',             url:'DIPLOMA STATEMENT OF RESULT_page-0001.jpg'},
+  {title:'NYSC Discharge Certificate',                       year:'2020', org:'National Youth Service Corps',                url:'NATIONAL YOUTH CERT_page-0001.jpg'},
+ ],
+ langs:['English','Igbo','Hausa'],
+ exp:[
+  {t:'Registered Midwife',o:'State Specialist Hospital, Yola',d:'2023 – 2025',b:[
+   'Assisted in providing antenatal care to pregnant women, including routine assessments and health education.',
+   'Supported labour monitoring and delivery care.',
+   'Assisted with postnatal care for mothers and newborns.',
+   'Monitored maternal and newborn vital signs and reported abnormalities to supervising healthcare professionals.',
+   'Provided health education on breastfeeding, maternal nutrition, personal hygiene, and newborn care.',
+   'Maintained accurate patient records and clinical documentation.',
+   'Followed infection prevention and control procedures to promote patient safety.',
+   'Supported family planning counselling and reproductive health education.',
+   'Assisted in the administration of routine immunization.']},
+   {t:'M&E Assistant',o:'Achieving Health Nigeria Initiative AHNi – Yola State Office, Adamawa',d:'08/2025 – Present',b:[
+   'Data Entry and Monitory: Perform paper and electronic data entry, ensure accurate documentation of HIV services, collaborate with medical staff, and prepare daily summary reports for Daily Performance Tracker.',
+   'Data Upload and Reporting: Update and submit the viral load tracker, Upload EMR  to the National Data Repository (NDR) daily, and lead situation room meeting to provide updates.',
+   'Carry out data reconciliation and analysis, cross-checking records across data systems to resolve discrepancies and support accurate programme reporting.']},
+  {t:'M&E Assistant',o:'Society for Family Health – Yola State Office, Adamawa',d:'08/2025 – 08/2026',b:[
+   'Assisted the technical team in coordinating M&E for ART, TB/HIV, and other related activities at Yola North and Fufore Community Centre.',
+   'Assisted the technical team to coordinate the submission of daily, weekly, and monthly reports (DHIS and LAMIS files, including RADET files, PrEP reports, and TB reports) to the state.',
+   'Ensured post-clinic reviews are conducted daily and used to drive project implementation.',
+   'Supported the technical team to work with state-level staff and government counterparts to provide support and guidance on program/project monitoring and evaluation activities and on donor and Government of Nigeria reporting requirements.',
+   'Supported the state team to work with local partners on the correct implementation and use of monitoring and evaluation tools, and adherence to complete, correct and timely reporting.',
+   'Supported and conducted routine monitoring visits to project sites, including data quality assessments (DQAs) using official tools, oversaw the preparation of monthly reports, and provided supportive supervision.',
+   'Assisted in ensuring that the quality of program/project activities adheres to SOPs by supporting the development and implementation of appropriate quality mechanisms.',
+   'Performed other duties as assigned by the Program Coordinator, MERL Officer or any of the Technical Officers.']},
+  {t:'Data Entry Clerk',o:'Society for Family Health',d:'02/2022 – 07/2025',b:[
+   'Entered all relevant data into the necessary electronic medical records (LAMISplus and DHIS2).',
+   'Kept track of all records and ensured all source documents and registers are duly validated and signed as due.',
+   'Collected all relevant data from various units for reporting.',
+   'Evaluated, monitored and triangulated data.',
+   'Generated and prepared monthly summary reports and ensured they were entered on DHIS2.',
+   'Entered daily data reports into the daily Performance Tracker (DPT).',
+   'Generated and monitored defaulters, IIT, and all clients due for various services, and captured clients\u2019 biometrics.']},
+  {t:'Data Entry Clerk (Volunteer)',o:'FHI 360 – ART Unit, Yola Specialist Hospital, Adamawa',d:'09/2019 – 05/2020',b:[
+   'Entered all relevant data into the necessary electronic medical record (LAMIS and DHIS2).',
+   'Kept track of all records and ensured all source documents and registers are duly validated and signed as due.',
+   'Collected all relevant data from various units for reporting.',
+   'Evaluated, monitored and triangulated data.',
+   'Generated and prepared monthly summary reports and ensured they were entered on DHIS2.',
+   'Entered daily data reports into the daily Performance Tracker (DPT).',
+   'Generated and monitored defaulters, IIT, and all clients due for various services.']}
+ ],
+ edu:[
+  {t:'Certificate: Registered Midwife',o:'College of Nursing Sciences Yola, Adamawa State',d:'09/2025'},
+  {t:'MSc: Public Health',o:'NOUN, Yola, Adamawa, Nigeria',d:'In view'},
+  {t:'Bachelor of  Technology: Laboratory Technology',o:'Modibbo Adama University of Technology, Yola, Adamawa, Nigeria',d:'06/2019'},
+  {t:'Diploma: Science Laboratory Technology',o:'Adamawa State Polytechnic, Yola',d:'01/2013'}
+ ],
+ refs:[
+  {n:'Usman Bwari Haliru',r:'Regional Team Lead – Society for Family Health',p:'+2348064914140',e:'Haliruusman90@gmail.com'},
+  {n:'Anthony Obalim',r:'Squadron Leader – Nigerian Airforce',p:'+2347036419820',e:'obalisko2017@gmail.com'},
+  {n:'Sunday Onoja',r:'State Lead and Clubfoot Optimizer – Positive Care Development Foundation',p:'+2348138686658',e:'galantmagnate@gmail.com'}
+ ]
+};
+
+/* ================= HELPERS ================= */
+const pl=s=>String(s).replace(/<[^>]+>/g,'');
+const A=s=>pl(s).replace(/[\u2013\u2014]/g,'-').replace(/[\u2018\u2019]/g,"'").replace(/[\u201C\u201D]/g,'"').replace(/\u00B7/g,'|');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=id=>document.getElementById(id);
+const IC={
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+ phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7A2 2 0 0 1 22 16.9z"/>',
+ pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+ brief:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
+ cap:'<path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/>',
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+ users:'<circle cx="9" cy="8" r="3.5"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M22 21a7 7 0 0 0-4-6.3"/>',
+ star:'<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2-4.5-4.4 6.2-.9z"/>',
+ down:'<path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/>',
+ left:'<path d="M15 18l-6-6 6-6"/>',
+ right:'<path d="M9 18l6-6-6-6"/>',
+ file:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/>',
+ image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/>',
+ link:'<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
+ eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'
+};
+const ic=(k,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
+const tel=p=>'tel:'+p.replace(/\s/g,'');
+
+/* ================= SECTIONS ================= */
+const SEC=[
+ {k:'Profile',i:'user',kick:'About me',t:'Professional Profile',
+  h:()=>`<div class="panel"><p class="lead">${esc(R.objective)}</p></div>
+   <div class="kpis">${R.stats.map(s=>`<div class="kpi"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div>
+   <div class="label">Key focus areas</div>
+   <div class="pills">${R.highlights.map(h=>`<span class="pill">${esc(h)}</span>`).join('')}</div>`},
+ {k:'Experience',i:'brief',kick:'Work history',t:'Professional Experience',
+  h:()=>`<div class="tline">${R.exp.map(e=>`<article class="job"><div class="jh"><h3>${esc(e.t)}</h3><span class="when">${esc(e.d)}</span></div><div class="org">${esc(e.o)}</div><div class="panel" style="padding:14px 16px;margin:0"><ul class="b">${e.b.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></article>`).join('')}</div>`},
+ {k:'Skills',i:'star',kick:'Capabilities',t:'Skills & Tools',
+  h:()=>`<div class="grid3">${R.skills.map(g=>`<div class="panel grp"><h4>${esc(g[0])}</h4><div class="pills">${g[1].map(x=>`<span class="pill">${esc(x)}</span>`).join('')}</div></div>`).join('')}
+   <div class="panel grp"><h4>Languages</h4><div class="pills">${R.langs.map(x=>`<span class="pill">${esc(x)}</span>`).join('')}</div></div></div>`},
+ {k:'Education',i:'cap',kick:'Qualifications',t:'Education',
+  h:()=>R.edu.map(e=>`<div class="panel edu"><div class="ic">${ic('cap')}</div><div><h3>${esc(e.t)}</h3><p>${esc(e.o)}</p></div><span class="when">${esc(e.d)}</span></div>`).join('')},
+ {k:'Referees',i:'users',kick:'References',t:'Referees',
+  h:()=>`<div class="grid3">${R.refs.map(r=>`<div class="panel ref"><div class="av">${esc(r.n.split(' ').map(w=>w[0]).slice(0,2).join(''))}</div><div><h3>${esc(r.n)}</h3><div class="r">${esc(r.r)}</div><a href="${tel(r.p)}">${ic('phone')}${esc(r.p)}</a><a href="mailto:${esc(r.e)}">${ic('mail')}${esc(r.e)}</a></div></div>`).join('')}</div>`},
+ {k:'Documents',i:'file',kick:'Supporting files',t:'Documents',
+  h:()=>`<div id="docslot"></div>`},
+ {k:'Contact',i:'mail',kick:'Get in touch',t:'Contact',
+  h:()=>`<div class="big">
+   <a class="row" href="mailto:${esc(R.email)}"><div class="ic">${ic('mail')}</div><div><small>Email</small><span>${esc(R.email)}</span></div></a>
+   <a class="row" href="${tel(R.phone)}"><div class="ic">${ic('phone')}</div><div><small>Phone</small><span>${esc(R.phone)}</span></div></a>
+   <div class="row"><div class="ic">${ic('pin')}</div><div><small>Address</small><span>${esc(R.addr)}</span></div></div>
+  </div>
+  <div class="label">Download this resume</div>
+  <div class="exports"><button class="btn pri" onclick="dlResume('pdf')">${ic('down')}PDF</button><button class="btn" onclick="dlResume('doc')">${ic('down')}Word</button><button class="btn" onclick="dlResume('txt')">${ic('down')}Text</button></div>`}
+];
+
+/* ================= RENDER ================= */
+$('name').textContent=R.name;
+$('headline').textContent=R.headline;
+$('chips').innerHTML=`<a class="chip" href="mailto:${esc(R.email)}">${ic('mail')}${esc(R.email)}</a><a class="chip" href="${tel(R.phone)}">${ic('phone')}${esc(R.phone)}</a><span class="chip">${ic('pin')}${esc(R.loc)}</span>`;
+$('bp').innerHTML=ic('down')+'PDF';$('bd').innerHTML=ic('down')+'Word';$('bt').innerHTML=ic('down')+'Text';
+$('track').innerHTML=SEC.map((s,i)=>`<section class="slide" data-s="${i?'future':'active'}" aria-label="${esc(s.t)}"><div class="inner"><div class="kick">${String(i+1).padStart(2,'0')} · ${esc(s.kick)}</div><div class="ttl">${esc(s.t)}</div><div class="sub">${esc(R.name.split(' ')[0]+"'s resume: "+s.k.toLowerCase())}</div>${s.h()}</div></section>`).join('');
+
+const tabsHTML=SEC.map((s,i)=>`<button class="tab" data-i="${i}">${ic(s.i).replace('<svg','<svg width="15" height="15"')}${esc(s.k)}<small>${String(i+1).padStart(2,'0')}</small></button>`).join('');
+$('tabs').innerHTML=tabsHTML;
+$('side').innerHTML=tabsHTML;
+
+const slides=[...document.querySelectorAll('.slide')];
+let cur=0;
+function go(n){
+ if(n<0||n>=slides.length||n===cur)return;
+ slides.forEach((s,i)=>s.dataset.s=i<n?'past':i===n?'active':'future');
+ cur=n;slides[n].scrollTop=0;ui();
+}
+function ui(){
+ document.querySelectorAll('.tab').forEach((b)=>{const i=+b.dataset.i;b.classList.toggle('on',i===cur);if(i===cur)b.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'})});
+ $('bar').style.width=((cur+1)/slides.length*100)+'%';
+ $('plabel').textContent=`${cur+1} of ${slides.length} · ${SEC[cur].k}`;
+ $('prev').innerHTML=ic('left');$('next').innerHTML=ic('right');
+ $('prev').disabled=cur===0;$('next').disabled=cur===slides.length-1;
+}
+document.addEventListener('click',e=>{const b=e.target.closest('.tab');if(b)go(+b.dataset.i)});
+$('prev').onclick=()=>go(cur-1);$('next').onclick=()=>go(cur+1);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+let tx=0,ty=0;const tr=$('track');
+tr.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+tr.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>70&&Math.abs(dy)<50)go(cur+(dx<0?1:-1))});
+
+/* ================= DOCUMENTS ================= */
+function kindOf(u){const p=u.split(/[?#]/)[0].toLowerCase();if(/\.(jpe?g|png|gif|webp|bmp|svg)$/.test(p))return 'image';if(/\.pdf$/.test(p))return 'pdf';return 'link'}
+function hostOf(u){
+  if(/^data:/i.test(u))return 'embedded';
+  if(/^https?:\/\//i.test(u)){try{return new URL(u).hostname}catch(e){return ''}}
+  const parts=u.replace(/^\.?\//,'').split('/');
+  return parts.length>1?parts.slice(0,-1).join('/'):'local file';
+}
+function isDocUrl(u){
+  if(!u)return false;
+  if(/^(https?:\/\/|data:image\/)/i.test(u))return true;
+  return /\.(jpe?g|png|gif|webp|bmp|svg|pdf)$/i.test(u.split(/[?#]/)[0]);
+}
+const DOCS=(R.docs||[]).filter(d=>d&&isDocUrl(d.url)).map((d,i)=>({
+ id:'doc'+i,
+ title:d.title||hostOf(d.url)||'Document '+(i+1),
+ year:d.year||'',
+ org:d.org||'',
+ url:d.url,
+ host:hostOf(d.url),
+ kind:d.kind||kindOf(d.url)
+}));
+
+function renderDocs(){
+ const slot=$('docslot');if(!slot)return;
+ if(!DOCS.length){slot.innerHTML='<div class="dempty">No documents have been added yet.</div>';return}
+ slot.innerHTML='<div class="dgrid">'+DOCS.map(d=>{
+  const icon=ic(d.kind==='pdf'?'file':d.kind==='image'?'image':'link');
+  const thumb=d.kind==='image'?`<img src="${esc(d.url)}" alt="${esc(d.title)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:'';
+  return `<article class="dcard">
+   <div class="dthumb" data-id="${esc(d.id)}" role="button" tabindex="0" aria-label="View ${esc(d.title)}">${icon}${thumb}</div>
+   <div class="dbody">
+     <h3>${esc(d.title)}</h3>
+     <div class="meta">
+       ${d.year?`<span>${esc(d.year)}</span>`:''}
+       ${d.org?`<span>${esc(d.org)}</span>`:''}
+     </div>
+     <p style="margin-top:6px">${d.kind==='pdf'?'PDF':d.kind==='image'?'Image':'Link'}${d.host?' · '+esc(d.host):''}</p>
+   </div>
+   <div class="dact"><button class="v" data-id="${esc(d.id)}">${ic('eye')}View</button></div>
+  </article>`;
+ }).join('')+'</div>';
+}
+
+function openImage(url,title){
+ $('vwt').textContent=title||'Image';
+ $('vwu').textContent=url;
+ $('vwo').href=url;
+ $('vwb').innerHTML=`<img src="${esc(url)}" alt="${esc(title||'')}" referrerpolicy="no-referrer" onerror="this.parentNode.innerHTML='<div class=&quot;nop&quot;>This image cannot be previewed here. Use Open in new tab.</div>'">`;
+ $('vw').classList.add('on');
+ $('vwx').focus();
+}
+
+function viewDoc(id){
+ const d=DOCS.find(x=>x.id===id);if(!d)return;
+ const label=[d.title,d.year,d.org].filter(Boolean).join(' · ');
+ if(d.kind==='image'){openImage(d.url,label);return}
+ $('vwt').textContent=label;
+ $('vwu').textContent=d.url;
+ $('vwo').href=d.url;
+ $('vwb').innerHTML=`<div class="nop">${d.kind==='pdf'?'PDF documents open in a new tab for reading.':'This link opens in a new tab.'}<br>Use the button below.</div>`;
+ $('vw').classList.add('on');$('vwx').focus();
+ window.open(d.url,'_blank','noopener,noreferrer');
+}
+function closeView(){$('vw').classList.remove('on');$('vwb').innerHTML=''}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-id]');if(b&&b.closest('#docslot'))viewDoc(b.dataset.id)});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('dthumb'))viewDoc(e.target.dataset.id)});
+$('vwx').onclick=closeView;
+$('vw').addEventListener('click',e=>{if(e.target.id==='vw')closeView()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeView()});
+renderDocs();
+ui();
+
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)}
+
+/* ================= EXPORTS ================= */
+const FN='Lauretta_Okonkwo_Resume';
+async function getDL(){try{if(window.claude&&window.claude.use)return await window.claude.use('downloads')}catch(e){}return null}
+function browserSave(blob,name){
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+async function saveOut(name,blob){
+ const d=await getDL();
+ if(d){try{const buf=new Uint8Array(await blob.arrayBuffer());await d.save({filename:name,data:buf});return}catch(e){if(e&&e.code==='declined')throw new Error('cancelled')}}
+ browserSave(blob,name);
+}
+async function dlResume(f){
+ const build={pdf:buildPdf,doc:buildDoc,txt:buildTxt}[f];
+ try{
+  const blob=await build();
+  await saveOut(FN+'.'+(f==='doc'?'doc':f),blob);
+  toast('Resume downloaded ('+f.toUpperCase()+')');
+ }catch(e){
+  if(e&&e.message==='cancelled'){toast('Download cancelled');return}
+  console.error(e);toast('Could not create the '+f.toUpperCase()+' file. Please try again.');
+ }
+}
+
+/* =====================================================================
+   PDF — clean, professional layout.
+   Supporting Documents section shows title, year · org, and an
+   "Attached" pill that is a clickable hyperlink to RESUME_URL.
+   ===================================================================== */
+function buildPdf(){
+ if(!window.jspdf)throw new Error('PDF library did not load');
+ const d=new window.jspdf.jsPDF({unit:'pt',format:'a4'});
+ const W=595.28,H=841.89,M=48,CW=W-2*M;
+ const TL=[15,118,110],AM=[217,119,6],DK=[15,23,42],GR=[71,85,105],LINE=[226,232,240],MUTE=[100,116,139];
+ let y=0;
+ const need=h=>{if(y+h>H-64){d.addPage();y=M+6}};
+ const F=(st,sz,c)=>{d.setFont('helvetica',st);d.setFontSize(sz);d.setTextColor(...c)};
+
+ const sec=t=>{
+   need(40);y+=14;
+   F('bold',10.5,TL);d.text(A(t).toUpperCase(),M,y);
+   d.setDrawColor(...LINE);d.setLineWidth(.6);
+   d.line(M,y+7,W-M,y+7);
+   y+=20;
+ };
+
+ const para=(s,sz=9.6,c=GR,lh=1.55)=>{
+   F('normal',sz,c);
+   d.splitTextToSize(A(s),CW).forEach(l=>{need(sz*lh);d.text(l,M,y);y+=sz*lh});
+ };
+
+ const bullet=s=>{
+   F('normal',9.4,GR);
+   d.splitTextToSize(A(s),CW-16).forEach((l,i)=>{
+     need(13);
+     if(!i){d.setFillColor(...AM);d.circle(M+3.5,y-3,1.6,'F')}
+     d.text(l,M+16,y);y+=13;
+   });
+   y+=1.8;
+ };
+
+ const role=(t,dt,o)=>{
+   need(46);
+   F('bold',11,DK);d.text(A(t),M,y);
+   F('normal',9,MUTE);d.text(A(dt),W-M,y,{align:'right'});
+   y+=13;
+   F('normal',9.5,TL);d.text(A(o),M,y);
+   y+=14;
+ };
+
+ /* ---------- HEADER BAND ---------- */
+ d.setFillColor(...TL);d.rect(0,0,W,116,'F');
+ d.setFillColor(...AM);d.rect(0,116,W,3,'F');
+ F('bold',26,[255,255,255]);d.text(R.name,M,50);
+ F('normal',11.5,[207,250,244]);d.text(A(R.headline),M,72);
+ F('normal',9.2,[255,255,255]);d.text(A(R.email+'   ·   '+R.phone),M,94);
+ F('normal',9.2,[255,255,255]);d.text(A(R.addr),M,108);
+ y=142;
+
+ /* ---------- STATS ROW ---------- */
+ const bw=(CW-36)/4;
+ R.stats.forEach((s,i)=>{
+   const x=M+i*(bw+12);
+   d.setFillColor(240,253,250);
+   d.roundedRect(x,y,bw,50,8,8,'F');
+   F('bold',18,TL);d.text(s[0],x+bw/2,y+24,{align:'center'});
+   F('normal',7.6,MUTE);d.text(A(s[1]).toUpperCase(),x+bw/2,y+39,{align:'center'});
+ });
+ y+=66;
+
+ /* ---------- OBJECTIVE ---------- */
+ sec('Career Objective');
+ para(R.objective,9.6);
+
+ /* ---------- SKILLS ---------- */
+ sec('Skills & Tools');
+ R.skills.forEach(([cat,items])=>{
+   F('bold',9.6,DK);d.text(A(cat),M,y);y+=12.5;
+   F('normal',9.4,GR);
+   d.splitTextToSize(A(items.join('  ·  ')),CW-10).forEach(l=>{need(13);d.text(l,M+10,y);y+=13});
+   y+=5;
+ });
+
+ /* ---------- EXPERIENCE ---------- */
+ sec('Work Experience');
+ R.exp.forEach((e,idx)=>{
+   role(e.t,e.d,e.o);
+   e.b.forEach(bullet);
+   if(idx<R.exp.length-1){y+=8}
+ });
+
+ /* ---------- EDUCATION ---------- */
+ sec('Education');
+ R.edu.forEach(e=>role(e.t,e.d,e.o));
+
+ /* ---------- REFEREES ---------- */
+ sec('Referees');
+ R.refs.forEach(r=>{
+   need(46);
+   F('bold',10,DK);d.text(A(r.n),M,y);y+=12.5;
+   F('normal',9,GR);d.text(A(r.r),M,y);y+=12;
+   F('normal',9,TL);d.text(A(r.p+'   ·   '+r.e),M,y);y+=16;
+ });
+
+ /* ---------- LANGUAGES ---------- */
+ sec('Languages');
+ para(R.langs.join('  ·  '));
+
+ /* ---------- SUPPORTING DOCUMENTS ----------
+    Title + year · org + "Attached" pill that is a clickable
+    hyperlink pointing to RESUME_URL.                              */
+ if(DOCS.length){
+   sec('Supporting Documents');
+   DOCS.forEach(x=>{
+     need(42);
+     /* Title */
+     F('bold',9.8,DK);d.text(A(x.title),M,y);
+
+     /* "Attached" pill: hyperlinked to RESUME_URL */
+     const tag='Attached';
+     F('bold',7.6,[4,47,42]);
+     const tw=d.getTextWidth(tag)+14;
+     const tx = W - M - tw;         /* left edge of pill */
+     const ty = y - 8;              /* top edge of pill */
+     d.setFillColor(...AM);
+     d.roundedRect(tx, ty, tw, 13, 6, 6, 'F');
+     d.text(tag, tx + tw/2, y + 1.5, {align:'center'});
+     /* Clickable region covering the pill */
+     d.link(tx, ty, tw, 13, {url: RESUME_URL});
+
+     y+=12;
+     /* Meta: year · organisation */
+     const meta=[x.year,x.org].filter(Boolean).join('   ·   ');
+     if(meta){F('normal',9,GR);d.text(A(meta),M,y);y+=12}
+     y+=4;
+   });
+ }
+
+ /* ---------- FOOTER on every page ---------- */
+ const n=d.getNumberOfPages();
+ for(let i=1;i<=n;i++){
+   d.setPage(i);
+   d.setDrawColor(...LINE);d.setLineWidth(.6);d.line(M,H-34,W-M,H-34);
+   F('normal',8,MUTE);
+   d.text(R.name+'  ·  Resume',M,H-20);
+   d.text('Page '+i+' of '+n,W-M,H-20,{align:'right'});
+ }
+ d.setProperties({title:R.name+' - Resume',author:R.name,subject:A(R.headline)});
+ return d.output('blob');
+}
+
+/* ---- WORD ---- */
+function buildDoc(){
+ const e=esc;
+ const job=(t,dt,o)=>`<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:9pt"><tr><td><h3>${e(t)}</h3></td><td class="dt" align="right">${e(dt)}</td></tr></table><p class="org">${e(o)}</p>`;
+ const ul=a=>`<ul>${a.map(x=>`<li>${e(x)}</li>`).join('')}</ul>`;
+ const h=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>${e(R.name)} - Resume</title>
+<style>@page{size:A4;margin:1.7cm 1.8cm}body{font-family:Calibri,Arial,sans-serif;font-size:10.5pt;color:#1e293b;line-height:1.35}
+h1{font-size:24pt;color:#fff;margin:0;letter-spacing:1pt}h2{font-size:12pt;color:#0f766e;border-bottom:1.5pt solid #d97706;margin:15pt 0 5pt;text-transform:uppercase;padding-bottom:2pt}
+h3{font-size:11pt;color:#0f172a;margin:0}p{margin:2pt 0}ul{margin:2pt 0 4pt 16pt;padding:0}li{margin:1.5pt 0}td{vertical-align:top}
+.org{color:#0f766e;font-weight:bold;font-size:10pt}.dt{color:#64748b;font-size:9.5pt;white-space:nowrap}.sk td{padding:2pt 6pt 2pt 0;font-size:10pt}.st td{background:#ecfdf9;text-align:center;padding:6pt;border:3pt solid #fff}
+.sn{font-size:16pt;font-weight:bold;color:#0f766e}.sl{font-size:7.5pt;color:#64748b;text-transform:uppercase}
+a.doclink{color:#0f766e;text-decoration:none;font-weight:bold}</style></head><body>
+<table width="100%" cellpadding="14" cellspacing="0"><tr><td bgcolor="#0f766e"><h1>${e(R.name)}</h1><p style="color:#ccfbf1;font-size:12pt">${e(R.headline)}</p><p style="color:#fff;font-size:9.5pt">${e(R.email)} &nbsp;|&nbsp; ${e(R.phone)}</p><p style="color:#fff;font-size:9.5pt">${e(R.addr)}</p></td></tr></table>
+<table class="st" width="100%" cellspacing="0" style="margin-top:8pt"><tr>${R.stats.map(s=>`<td><span class="sn">${s[0]}</span><br><span class="sl">${e(s[1])}</span></td>`).join('')}</tr></table>
+<h2>Career Objective</h2><p>${e(R.objective)}</p>
+<h2>Skills &amp; Tools</h2><table class="sk" width="100%">${R.skills.map(c=>`<tr><td width="30%"><b>${e(c[0])}</b></td><td>${e(c[1].join(', '))}</td></tr>`).join('')}</table>
+<h2>Work Experience</h2>${R.exp.map(x=>job(x.t,x.d,x.o)+ul(x.b)).join('')}
+<h2>Education</h2>${R.edu.map(x=>job(x.t,x.d,x.o)).join('')}
+<h2>Referees</h2><table class="sk" width="100%">${R.refs.map(r=>`<tr><td width="34%"><b>${e(r.n)}</b></td><td>${e(r.r)}<br>${e(r.p)} &nbsp;|&nbsp; ${e(r.e)}</td></tr>`).join('')}</table>
+<h2>Languages</h2><p>${R.langs.map(e).join(', ')}</p>
+${DOCS.length?`<h2>Supporting Documents</h2><ul>${DOCS.map(x=>`<li><a class="doclink" href="${e(RESUME_URL)}"><b>${e(x.title)}</b></a>${(x.year||x.org)?` — ${e([x.year,x.org].filter(Boolean).join(', '))}`:''}</li>`).join('')}</ul>`:''}
+</body></html>`;
+ return new Blob(['\ufeff',h],{type:'application/msword'});
+}
+
+/* ---- TEXT ---- */
+function buildTxt(){
+ const W=80;
+ const wrap=(s,w,first='',rest='')=>{const out=[];let line=first,empty=true;A(s).split(/\s+/).forEach(x=>{if(!empty&&(line+' '+x).length>w){out.push(line);line=rest+x}else line+=(empty?'':' ')+x;empty=false});out.push(line);return out.join('\n')};
+ const L=[];
+ const sec=t=>L.push('','',A(t).toUpperCase(),'-'.repeat(W));
+ const ent=(t,dt,o)=>{const l=A(t),r=A(dt);L.push('',l+' '.repeat(Math.max(2,W-l.length-r.length))+r,wrap(o,W))};
+ L.push(R.name,A(R.headline),A(R.addr),A(R.email)+' | '+R.phone,'='.repeat(W));
+ sec('Career Objective');L.push(wrap(R.objective,W));
+ sec('Key Figures');L.push(R.stats.map(s=>s[1]+': '+s[0]).join('\n'));
+ sec('Skills & Tools');R.skills.forEach(([c,i])=>L.push(c+':',wrap(i.join(', '),W,'  ','  ')));
+ L.push('Languages: '+R.langs.join(', '));
+ sec('Work Experience');R.exp.forEach(x=>{ent(x.t,x.d,x.o);x.b.forEach(b=>L.push(wrap(b,W,'  - ','    ')))});
+ sec('Education');R.edu.forEach(x=>{ent(x.t,x.d,x.o)});
+ sec('Referees');R.refs.forEach(r=>{L.push('',r.n,wrap(r.r,W),'  '+r.p+' | '+r.e)});
+ /* Supporting documents: link text is the title; the URL is on the same line so it's clickable in editors/terminals that auto-linkify */
+ if(DOCS.length){sec('Supporting Documents');DOCS.forEach(x=>{
+   const meta=[x.year,x.org].filter(Boolean).join(' · ');
+   L.push('','  - '+x.title+(meta?'  ('+meta+')':''));
+   L.push(wrap(RESUME_URL,W,'    ','    '));
+ })}
+ L.push('');
+ return new Blob(['\ufeff'+L.join('\r\n').replace(/\r?\n/g,'\r\n')],{type:'text/plain;charset=utf-8'});
+}
+</script>
+</body>
+</html>
