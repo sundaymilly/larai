@@ -93,6 +93,13 @@ html[data-theme="light"] body{
 a.chip:hover{border-color:var(--teal);color:var(--teal)}
 .chip svg{width:14px;height:14px;color:var(--teal)}
 
+/* LinkedIn chip: distinct brand color */
+.chip.chip-li{background:linear-gradient(135deg,rgba(10,102,194,.20),rgba(10,102,194,.08));border-color:rgba(10,102,194,.45)}
+.chip.chip-li svg{color:#0a66c2}
+html[data-theme="dark"] .chip.chip-li svg{color:#5fb0ff}
+.chip.chip-li:hover{border-color:#0a66c2;color:#0a66c2}
+html[data-theme="dark"] .chip.chip-li:hover{color:#5fb0ff}
+
 .exports{display:flex;gap:8px;flex-wrap:wrap}
 .btn{
   display:inline-flex;align-items:center;gap:7px;font:inherit;
@@ -243,6 +250,11 @@ ul.b li::before{content:"";position:absolute;left:2px;top:.7em;width:6px;height:
 .row .ic svg{width:19px;height:19px}
 .row small{display:block;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 .row span{font-size:15px;font-weight:700;word-break:break-word}
+
+/* LinkedIn contact row */
+.row.row-li .ic{background:rgba(10,102,194,.18);color:#0a66c2}
+html[data-theme="dark"] .row.row-li .ic{color:#5fb0ff}
+.row.row-li:hover{border-color:#0a66c2}
 
 .dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
 .dcard{
@@ -433,11 +445,14 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
 });
 
 /* ================= PHOTO ================= */
-const PHOTO = document.getElementById('avatarImg').getAttribute('src') || 'lauretta.png';
+const PHOTO = document.getElementById('avatarImg').getAttribute('src') || 'larai.jpeg';
 document.getElementById('avatarBtn').addEventListener('click',()=>openImage(PHOTO,'Profile photo'));
 
-/* ================= RESUME LINK (used inside PDF/Word/Text exports) ================= */
-const RESUME_URL = 'https://lara-nine.vercel.app/';
+/* ================= EXTERNAL LINKS ================= */
+const RESUME_URL   = 'https://lara-nine.vercel.app/';
+/* ⬇️ Replace with the actual LinkedIn profile URL ⬇️ */
+const LINKEDIN_URL = 'https://www.linkedin.com/in/mba-dilli-larai';
+const LINKEDIN_LABEL = 'LinkedIn Profile';
 
 /* ================= RESUME DATA ================= */
 const R={
@@ -447,6 +462,7 @@ const R={
  phone:'07030510665 / 08132181168',
  addr:'Adasolid Estate off FRSC Numan Road, Yola, Adamawa State, Nigeria',
  loc:'Yola, Adamawa State',
+ linkedin:LINKEDIN_URL,
  objective:'Dedicated GBV/Protection Case Management and MEAL/Strategic Information professional with over 8 years of experience supporting USAID, EU, UN, and other donor-funded programs in GBV response, protection, HIV programming, and humanitarian interventions. Proven expertise in GBV case management, referral pathways, SOP development, capacity building, and data management systems including GBVIMS, DHIS2, LAMISPlus, and ODK Collect. Demonstrated track record in training delivery, coaching and mentorship, and coordination with government authorities, UN agencies, and local partners across Adamawa and Northeast Nigeria. Strong background in survivor-centered case management, protection mainstreaming, gender integration, and community engagement. Committed to upholding data protection, ethical practices, and donor compliance in all programming.',
  stats:[['8+','Years Experience'],['6','Professional Roles'],['2','Qualifications'],['4','Training Areas']],
  highlights:['GBV Case Management','Protection Case Management','Survivor-Centered Approach','Referral Pathways','GBVIMS / DHIS2 / LAMISPlus','Gender Mainstreaming'],
@@ -461,7 +477,7 @@ const R={
   {title:'Training Workhop On Research Development',                     year:'2025', org:'SFH', url:'training cert.jpeg'},
   {title:'Data Review and Validation',                                   year:'2018', org:'FHI 360', url:'images/certificates/data-review-validation-2018.jpeg'},
   {title:'Gender and Monitoring & Evaluation',                           year:'',     org:'Global Health eLearning Centre', url:'global.jpeg'},
-  {title:'Prossional Diploma in Digital Marketing Certification',                 year:'2024', org:'Digital Marketing Skill Institute', url:'digital.jpeg'},
+  {title:'Prossional Diploma in Digital Marketing Certification',        year:'2024', org:'Digital Marketing Skill Institute', url:'digital.jpeg'},
  ],
  langs:['English','Hausa','Igbo'],
  exp:[
@@ -499,7 +515,7 @@ const R={
    'Supported accountability to affected populations through community engagement activities.']}
  ],
  edu:[
-  {t:'M.Ed. Educational Administration and Planning (In view)',o:'NOUN ',d:'June 2026'},
+  {t:'M.Ed. Educational Administration and Planning (In view)',o:'NOUN',d:'June 2026'},
   {t:'B.Sc. Geography Education',o:'Nasarawa State University, Keffi',d:'2014'}
  ],
  refs:[
@@ -527,7 +543,9 @@ const IC={
  file:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/>',
  image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/>',
  link:'<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
- eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'
+ eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+ /* LinkedIn filled glyph */
+ linkedin:'<path fill="currentColor" stroke="none" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/>'
 };
 const ic=(k,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
 const tel=p=>'tel:'+p.replace(/\s/g,'');
@@ -554,6 +572,7 @@ const SEC=[
   h:()=>`<div class="big">
    <a class="row" href="mailto:${esc(R.email)}"><div class="ic">${ic('mail')}</div><div><small>Email</small><span>${esc(R.email)}</span></div></a>
    <a class="row" href="${tel(R.phone.split('/')[0].trim())}"><div class="ic">${ic('phone')}</div><div><small>Phone</small><span>${esc(R.phone)}</span></div></a>
+   <a class="row row-li" href="${esc(R.linkedin)}" target="_blank" rel="noopener noreferrer"><div class="ic">${ic('linkedin')}</div><div><small>LinkedIn</small><span>${esc(LINKEDIN_LABEL)}</span></div></a>
    <div class="row"><div class="ic">${ic('pin')}</div><div><small>Address</small><span>${esc(R.addr)}</span></div></div>
   </div>
   <div class="label">Download this resume</div>
@@ -563,7 +582,11 @@ const SEC=[
 /* ================= RENDER ================= */
 $('name').textContent=R.name;
 $('headline').textContent=R.headline;
-$('chips').innerHTML=`<a class="chip" href="mailto:${esc(R.email)}">${ic('mail')}${esc(R.email)}</a><a class="chip" href="${tel(R.phone.split('/')[0].trim())}">${ic('phone')}${esc(R.phone)}</a><span class="chip">${ic('pin')}${esc(R.loc)}</span>`;
+$('chips').innerHTML=
+  `<a class="chip" href="mailto:${esc(R.email)}">${ic('mail')}${esc(R.email)}</a>`+
+  `<a class="chip" href="${tel(R.phone.split('/')[0].trim())}">${ic('phone')}${esc(R.phone)}</a>`+
+  `<a class="chip chip-li" href="${esc(R.linkedin)}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">${ic('linkedin')}LinkedIn</a>`+
+  `<span class="chip">${ic('pin')}${esc(R.loc)}</span>`;
 $('bp').innerHTML=ic('down')+'PDF';$('bd').innerHTML=ic('down')+'Word';$('bt').innerHTML=ic('down')+'Text';
 $('track').innerHTML=SEC.map((s,i)=>`<section class="slide" data-s="${i?'future':'active'}" aria-label="${esc(s.t)}"><div class="inner"><div class="kick">${String(i+1).padStart(2,'0')} · ${esc(s.kick)}</div><div class="ttl">${esc(s.t)}</div><div class="sub">${esc(R.name.split(' ')[0]+"'s resume: "+s.k.toLowerCase())}</div>${s.h()}</div></section>`).join('');
 
@@ -697,7 +720,7 @@ function buildPdf(){
  if(!window.jspdf)throw new Error('PDF library did not load');
  const d=new window.jspdf.jsPDF({unit:'pt',format:'a4'});
  const W=595.28,H=841.89,M=48,CW=W-2*M;
- const TL=[15,118,110],AM=[217,119,6],DK=[15,23,42],GR=[71,85,105],LINE=[226,232,240],MUTE=[100,116,139];
+ const TL=[15,118,110],AM=[217,119,6],DK=[15,23,42],GR=[71,85,105],LINE=[226,232,240],MUTE=[100,116,139],LI=[10,102,194];
  let y=0;
  const need=h=>{if(y+h>H-64){d.addPage();y=M+6}};
  const F=(st,sz,c)=>{d.setFont('helvetica',st);d.setFontSize(sz);d.setTextColor(...c)};
@@ -806,6 +829,15 @@ function buildPdf(){
    });
  }
 
+ /* LinkedIn link at the bottom of the PDF */
+ need(24);
+ y+=6;
+ F('bold',9,LI);
+ const liText = 'LinkedIn: ' + LINKEDIN_LABEL;
+ const liW = d.getTextWidth(liText);
+ d.text(liText, M, y);
+ d.link(M, y-9, liW, 12, {url: LINKEDIN_URL});
+
  const n=d.getNumberOfPages();
  for(let i=1;i<=n;i++){
    d.setPage(i);
@@ -829,8 +861,9 @@ h1{font-size:24pt;color:#fff;margin:0;letter-spacing:1pt}h2{font-size:12pt;color
 h3{font-size:11pt;color:#0f172a;margin:0}p{margin:2pt 0}ul{margin:2pt 0 4pt 16pt;padding:0}li{margin:1.5pt 0}td{vertical-align:top}
 .org{color:#0f766e;font-weight:bold;font-size:10pt}.dt{color:#64748b;font-size:9.5pt;white-space:nowrap}.sk td{padding:2pt 6pt 2pt 0;font-size:10pt}.st td{background:#ecfdf9;text-align:center;padding:6pt;border:3pt solid #fff}
 .sn{font-size:16pt;font-weight:bold;color:#0f766e}.sl{font-size:7.5pt;color:#64748b;text-transform:uppercase}
-a.doclink{color:#0f766e;text-decoration:none;font-weight:bold}</style></head><body>
-<table width="100%" cellpadding="14" cellspacing="0"><tr><td bgcolor="#0f766e"><h1>${e(R.name)}</h1><p style="color:#ccfbf1;font-size:12pt">${e(R.headline)}</p><p style="color:#fff;font-size:9.5pt">${e(R.email)} &nbsp;|&nbsp; ${e(R.phone)}</p><p style="color:#fff;font-size:9.5pt">${e(R.addr)}</p></td></tr></table>
+a.doclink{color:#0f766e;text-decoration:none;font-weight:bold}
+a.lilink{color:#0a66c2;text-decoration:none;font-weight:bold}</style></head><body>
+<table width="100%" cellpadding="14" cellspacing="0"><tr><td bgcolor="#0f766e"><h1>${e(R.name)}</h1><p style="color:#ccfbf1;font-size:12pt">${e(R.headline)}</p><p style="color:#fff;font-size:9.5pt">${e(R.email)} &nbsp;|&nbsp; ${e(R.phone)}</p><p style="color:#fff;font-size:9.5pt">${e(R.addr)}</p><p style="color:#c7ebff;font-size:9.5pt"><a class="lilink" style="color:#c7ebff" href="${e(R.linkedin)}">${e(LINKEDIN_LABEL)}</a></p></td></tr></table>
 <table class="st" width="100%" cellspacing="0" style="margin-top:8pt"><tr>${R.stats.map(s=>`<td><span class="sn">${s[0]}</span><br><span class="sl">${e(s[1])}</span></td>`).join('')}</tr></table>
 <h2>Professional Summary</h2><p>${e(R.objective)}</p>
 <h2>Skills &amp; Tools</h2><table class="sk" width="100%">${R.skills.map(c=>`<tr><td width="30%"><b>${e(c[0])}</b></td><td>${e(c[1].join(', '))}</td></tr>`).join('')}</table>
@@ -839,6 +872,7 @@ a.doclink{color:#0f766e;text-decoration:none;font-weight:bold}</style></head><bo
 <h2>Referees</h2><table class="sk" width="100%">${R.refs.map(r=>`<tr><td width="34%"><b>${e(r.n)}</b></td><td>${e(r.r)}${(r.p||r.e)?`<br>${e([r.p,r.e].filter(Boolean).join(' | '))}`:''}</td></tr>`).join('')}</table>
 <h2>Languages</h2><p>${R.langs.map(e).join(', ')}</p>
 ${DOCS.length?`<h2>Professional Training &amp; Certifications</h2><ul>${DOCS.map(x=>`<li><a class="doclink" href="${e(RESUME_URL)}"><b>${e(x.title)}</b></a>${(x.year||x.org)?` — ${e([x.year,x.org].filter(Boolean).join(', '))}`:''}</li>`).join('')}</ul>`:''}
+<h2>LinkedIn</h2><p><a class="lilink" href="${e(R.linkedin)}">${e(LINKEDIN_LABEL)}</a></p>
 </body></html>`;
  return new Blob(['\ufeff',h],{type:'application/msword'});
 }
@@ -850,7 +884,7 @@ function buildTxt(){
  const L=[];
  const sec=t=>L.push('','',A(t).toUpperCase(),'-'.repeat(W));
  const ent=(t,dt,o)=>{const l=A(t),r=A(dt);L.push('',l+' '.repeat(Math.max(2,W-l.length-r.length))+r,wrap(o,W))};
- L.push(R.name,A(R.headline),A(R.addr),A(R.email)+' | '+R.phone,'='.repeat(W));
+ L.push(R.name,A(R.headline),A(R.addr),A(R.email)+' | '+R.phone,'LinkedIn: '+R.linkedin,'='.repeat(W));
  sec('Professional Summary');L.push(wrap(R.objective,W));
  sec('Key Figures');L.push(R.stats.map(s=>s[1]+': '+s[0]).join('\n'));
  sec('Skills & Tools');R.skills.forEach(([c,i])=>L.push(c+':',wrap(i.join(', '),W,'  ','  ')));
@@ -863,6 +897,7 @@ function buildTxt(){
    L.push('','  - '+x.title+(meta?'  ('+meta+')':''));
    L.push(wrap(RESUME_URL,W,'    ','    '));
  })}
+ sec('LinkedIn');L.push('  '+R.linkedin);
  L.push('');
  return new Blob(['\ufeff'+L.join('\r\n').replace(/\r?\n/g,'\r\n')],{type:'text/plain;charset=utf-8'});
 }
