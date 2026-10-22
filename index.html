@@ -1,61 +1,119 @@
-
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lauretta Okonkwo · Registered Midwife</title>
-<link rel="icon" type="image/png" href="/lauretta.png">
+<title>MBA Dilli Larai · GBV / Protection Case Management Specialist</title>
+<link rel="icon" type="image/png" href="lauretta.png">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{
-  --bg:#07111f;--panel:#0e1a2d;--card:#132640;--line:#1d3350;
-  --ink:#e8f0fa;--mute:#8ea3bf;--teal:#2dd4bf;--teal2:#0f766e;--amber:#f59e0b;
-  --header1:#0f766e;--header2:#134e4a;
+  --bg1:#0a1424;--bg2:#0f2338;
+  --glass:rgba(255,255,255,0.06);
+  --glass-strong:rgba(255,255,255,0.10);
+  --glass-border:rgba(255,255,255,0.14);
+  --glass-border-soft:rgba(255,255,255,0.08);
+  --ink:#eaf3ff;--mute:#9db0c8;
+  --teal:#2dd4bf;--teal2:#0f766e;--amber:#f59e0b;
   --shadow:rgba(0,0,0,.35);
+  --blur:14px;
 }
 html[data-theme="light"]{
-  --bg:#f4f7fb;--panel:#ffffff;--card:#eef3f9;--line:#d6e0ec;
-  --ink:#0f172a;--mute:#5b6b83;--teal:#0d9488;--teal2:#0f766e;--amber:#d97706;
-  --header1:#0d9488;--header2:#0f766e;
+  --bg1:#eaf2fb;--bg2:#f7fbff;
+  --glass:rgba(255,255,255,0.55);
+  --glass-strong:rgba(255,255,255,0.75);
+  --glass-border:rgba(255,255,255,0.85);
+  --glass-border-soft:rgba(15,23,42,0.08);
+  --ink:#0f172a;--mute:#5b6b83;
+  --teal:#0d9488;--teal2:#0f766e;--amber:#d97706;
   --shadow:rgba(15,23,42,.12);
+  --blur:18px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{font-family:'Manrope',system-ui,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden;font-size:15px;transition:background .3s,color .3s}
-body::before{content:"";position:fixed;inset:0;background:radial-gradient(900px 500px at 90% -10%,rgba(45,212,191,.18),transparent 60%),radial-gradient(800px 500px at -10% 110%,rgba(245,158,11,.14),transparent 60%);pointer-events:none;z-index:0}
-html[data-theme="light"] body::before{opacity:.5}
+body{
+  font-family:'Manrope',system-ui,Segoe UI,Arial,sans-serif;
+  background:
+    radial-gradient(1100px 620px at 85% -10%,rgba(45,212,191,.28),transparent 60%),
+    radial-gradient(900px 600px at -10% 110%,rgba(245,158,11,.22),transparent 60%),
+    linear-gradient(135deg,var(--bg1),var(--bg2));
+  color:var(--ink);overflow:hidden;font-size:15px;
+  transition:background .4s,color .3s;
+  min-height:100dvh;
+}
+html[data-theme="light"] body{
+  background:
+    radial-gradient(1100px 620px at 85% -10%,rgba(13,148,136,.20),transparent 60%),
+    radial-gradient(900px 600px at -10% 110%,rgba(217,119,6,.16),transparent 60%),
+    linear-gradient(135deg,var(--bg1),var(--bg2));
+}
+.shell{
+  position:relative;height:100dvh;display:grid;
+  grid-template-rows:auto auto 1fr auto;
+  max-width:1180px;margin:auto;padding:16px;gap:14px;z-index:1;
+}
 
-.shell{position:relative;height:100dvh;display:grid;grid-template-rows:auto auto 1fr auto;max-width:1180px;margin:auto;z-index:1}
+.top{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:14px 18px;border-radius:20px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(var(--blur)) saturate(140%);
+  -webkit-backdrop-filter:blur(var(--blur)) saturate(140%);
+  box-shadow:0 10px 30px var(--shadow), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.top-actions{order:1;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.who{order:2;flex:1;min-width:200px;text-align:right}
+.avatar{order:3}
 
-.top{display:flex;align-items:center;gap:18px;padding:22px 28px 14px;flex-wrap:wrap}
-.avatar{width:64px;height:64px;border-radius:18px;overflow:hidden;flex-shrink:0;
+.avatar{
+  width:64px;height:64px;border-radius:18px;overflow:hidden;flex-shrink:0;
   background:linear-gradient(135deg,var(--teal),var(--amber));cursor:pointer;
-  box-shadow:0 10px 30px rgba(45,212,191,.25);position:relative;padding:0;border:none}
+  box-shadow:0 10px 30px rgba(45,212,191,.25);position:relative;padding:0;
+  border:1px solid var(--glass-border);
+}
 .avatar img{width:100%;height:100%;object-fit:cover;display:block}
 .avatar::after{content:"Tap to view";position:absolute;left:0;right:0;bottom:0;
   font-size:9px;text-align:center;background:rgba(0,0,0,.6);color:#fff;padding:2px 0;
   opacity:0;transition:.2s;font-weight:700}
 .avatar:hover::after,.avatar:focus-visible::after{opacity:1}
 .avatar:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
-.who{flex:1;min-width:200px}
-.who h1{font-size:26px;font-weight:800;letter-spacing:.02em}
-.who .hl{color:var(--teal);font-weight:600;font-size:14px;margin-top:2px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.chip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--ink);text-decoration:none;background:var(--panel);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+
+.who h1{font-size:24px;font-weight:800;letter-spacing:.02em}
+.who .hl{color:var(--teal);font-weight:600;font-size:13.5px;margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;justify-content:flex-end}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;
+  color:var(--ink);text-decoration:none;padding:6px 12px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--glass-border-soft);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:.2s;
+}
 a.chip:hover{border-color:var(--teal);color:var(--teal)}
 .chip svg{width:14px;height:14px;color:var(--teal)}
 
-.top-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .exports{display:flex;gap:8px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:12.5px;font-weight:700;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;transition:.2s}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;font:inherit;
+  font-size:12.5px;font-weight:700;padding:10px 14px;border-radius:12px;
+  background:var(--glass);border:1px solid var(--glass-border-soft);
+  color:var(--ink);cursor:pointer;transition:.2s;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
 .btn svg{width:15px;height:15px}
 .btn:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-1px)}
-.btn.pri{background:var(--teal);border-color:var(--teal);color:#042f2a}
+.btn.pri{background:linear-gradient(135deg,rgba(45,212,191,.85),rgba(13,148,136,.85));
+  border-color:rgba(45,212,191,.6);color:#042f2a;
+  box-shadow:0 6px 18px rgba(45,212,191,.35)}
 .btn.pri:hover{color:#042f2a;filter:brightness(1.08)}
 
-.theme-toggle{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:.2s}
+.theme-toggle{
+  width:44px;height:44px;border-radius:12px;
+  background:var(--glass);border:1px solid var(--glass-border-soft);
+  color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:.2s;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
 .theme-toggle:hover{border-color:var(--teal);color:var(--teal)}
 .theme-toggle svg{width:20px;height:20px}
 html[data-theme="light"] .theme-toggle .moon{display:block}
@@ -63,16 +121,37 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
 .theme-toggle .moon{display:none}
 .theme-toggle .sun{display:block}
 
-.tabs{display:flex;gap:6px;padding:4px 16px 12px;overflow-x:auto;scrollbar-width:none}
+.tabs{display:flex;gap:6px;padding:4px 6px 4px;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:none;display:flex;align-items:center;gap:8px;font:inherit;font-size:13px;font-weight:700;color:var(--mute);background:transparent;border:1px solid transparent;padding:8px 14px;border-radius:12px;cursor:pointer;transition:.2s;white-space:nowrap}
+.tab{
+  flex:none;display:flex;align-items:center;gap:8px;font:inherit;
+  font-size:13px;font-weight:700;color:var(--mute);
+  background:var(--glass);border:1px solid var(--glass-border-soft);
+  padding:8px 14px;border-radius:12px;cursor:pointer;transition:.2s;white-space:nowrap;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
 .tab small{font-size:10.5px;color:var(--mute);opacity:.7}
-.tab:hover{color:var(--ink);background:var(--panel)}
-.tab.on{color:#04211d;background:var(--teal)}
+.tab:hover{color:var(--ink);border-color:var(--glass-border)}
+.tab.on{
+  color:#04211d;
+  background:linear-gradient(135deg,rgba(45,212,191,.85),rgba(13,148,136,.85));
+  border-color:rgba(45,212,191,.6);
+  box-shadow:0 6px 18px rgba(45,212,191,.30);
+}
 .tab.on small{color:#04211d;opacity:.8}
 
-.track{position:relative;overflow:hidden;margin:0 14px;min-height:0}
-.slide{position:absolute;inset:0;overflow-y:auto;padding:14px 16px 24px;transition:transform .55s cubic-bezier(.2,.7,.2,1),opacity .4s ease;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.track{position:relative;overflow:hidden;min-height:0;border-radius:20px}
+.slide{
+  position:absolute;inset:0;overflow-y:auto;padding:18px 22px 26px;
+  transition:transform .55s cubic-bezier(.2,.7,.2,1),opacity .4s ease;
+  scrollbar-width:thin;scrollbar-color:var(--glass-border) transparent;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:20px;
+  backdrop-filter:blur(var(--blur)) saturate(140%);
+  -webkit-backdrop-filter:blur(var(--blur)) saturate(140%);
+  box-shadow:0 10px 30px var(--shadow), inset 0 1px 0 rgba(255,255,255,.08);
+}
 .slide[data-s=future]{transform:translateX(50px);opacity:0;pointer-events:none}
 .slide[data-s=past]{transform:translateX(-50px);opacity:0;pointer-events:none}
 .slide[data-s=active]{transform:none;opacity:1}
@@ -80,106 +159,188 @@ html[data-theme="light"] .theme-toggle .sun{display:none}
 .kick{font-size:11.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
 .ttl{font-size:30px;font-weight:800;letter-spacing:-.01em;margin:6px 0 4px}
 .sub{color:var(--mute);font-size:14px;margin-bottom:22px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin-bottom:14px}
-.lead{font-size:16px;line-height:1.8;color:var(--ink);opacity:.9}
+
+.panel{
+  background:var(--glass-strong);
+  border:1px solid var(--glass-border-soft);
+  border-radius:18px;padding:18px 20px;margin-bottom:14px;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.lead{font-size:15.5px;line-height:1.8;color:var(--ink);opacity:.92}
 .lead b{color:var(--ink);opacity:1}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
-.kpi{background:var(--card);border-radius:16px;padding:16px 10px;text-align:center;border:1px solid var(--line)}
+.kpi{
+  background:var(--glass-strong);border-radius:16px;padding:16px 10px;text-align:center;
+  border:1px solid var(--glass-border-soft);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
 .kpi b{display:block;font-size:30px;font-weight:800;color:var(--teal)}
 .kpi span{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
 .label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:18px 0 10px}
+
 .tline{position:relative;padding-left:26px}
-.tline::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--teal),var(--line))}
+.tline::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;
+  background:linear-gradient(var(--teal),rgba(255,255,255,0.08))}
 .job{position:relative;margin-bottom:14px}
-.job::before{content:"";position:absolute;left:-24px;top:22px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--teal)}
+.job::before{content:"";position:absolute;left:-24px;top:22px;width:12px;height:12px;
+  border-radius:50%;background:var(--bg1);border:2px solid var(--teal)}
 .jh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
 .jh h3{font-size:17px;font-weight:800}
-.when{font-size:12px;font-weight:700;color:#04211d;background:var(--amber);padding:4px 11px;border-radius:999px;white-space:nowrap}
+.when{
+  font-size:12px;font-weight:700;color:#04211d;
+  background:linear-gradient(135deg,#fbbf24,#f59e0b);
+  padding:4px 11px;border-radius:999px;white-space:nowrap;
+  box-shadow:0 4px 12px rgba(245,158,11,.30);
+}
 .org{color:var(--teal);font-weight:700;font-size:13.5px;margin:4px 0 10px}
 ul.b{list-style:none}
-ul.b li{position:relative;padding-left:18px;font-size:14px;line-height:1.7;color:var(--ink);opacity:.85;margin-bottom:4px}
+ul.b li{position:relative;padding-left:18px;font-size:14px;line-height:1.7;color:var(--ink);opacity:.88;margin-bottom:4px}
 ul.b li::before{content:"";position:absolute;left:2px;top:.7em;width:6px;height:6px;border-radius:2px;background:var(--amber)}
+
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .grp h4{font-size:13px;font-weight:800;color:var(--teal);margin-bottom:12px;letter-spacing:.02em}
 .pills{display:flex;flex-wrap:wrap;gap:8px}
-.pill{font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:10px;background:var(--card);border:1px solid var(--line);color:var(--ink)}
-.edu{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center}
-.edu .ic{width:46px;height:46px;border-radius:14px;background:rgba(45,212,191,.12);color:var(--teal);display:grid;place-items:center}
+.pill{
+  font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:10px;
+  background:var(--glass);border:1px solid var(--glass-border-soft);color:var(--ink);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+
+.edu{
+  display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;
+  background:var(--glass-strong);border:1px solid var(--glass-border-soft);
+  border-radius:18px;padding:16px 18px;margin-bottom:12px;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.edu .ic{width:46px;height:46px;border-radius:14px;background:rgba(45,212,191,.14);color:var(--teal);display:grid;place-items:center}
 .edu .ic svg{width:22px;height:22px}
 .edu h3{font-size:15.5px;font-weight:800}
 .edu p{font-size:13.5px;color:var(--mute);margin-top:2px}
-.ref{display:flex;gap:14px;align-items:flex-start}
+
+.ref{
+  display:flex;gap:14px;align-items:flex-start;
+  background:var(--glass-strong);border:1px solid var(--glass-border-soft);
+  border-radius:18px;padding:16px 18px;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
 .ref .av{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-weight:800;color:#06201c;background:linear-gradient(135deg,var(--amber),var(--teal))}
 .ref h3{font-size:15.5px;font-weight:800}
 .ref .r{font-size:13px;color:var(--mute);margin:2px 0 10px;line-height:1.5}
 .ref a{display:block;font-size:13px;color:var(--ink);text-decoration:none;margin-top:4px;word-break:break-all}
 .ref a:hover{color:var(--teal)}
 .ref a svg{width:13px;height:13px;vertical-align:-2px;margin-right:6px;color:var(--teal)}
+
 .big{display:grid;gap:12px}
-.row{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--ink);text-decoration:none}
+.row{
+  display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;
+  background:var(--glass-strong);border:1px solid var(--glass-border-soft);
+  color:var(--ink);text-decoration:none;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:.2s;
+}
 .row:hover{border-color:var(--teal)}
-.row .ic{width:40px;height:40px;border-radius:12px;background:rgba(245,158,11,.12);color:var(--amber);display:grid;place-items:center;flex-shrink:0}
+.row .ic{width:40px;height:40px;border-radius:12px;background:rgba(245,158,11,.14);color:var(--amber);display:grid;place-items:center;flex-shrink:0}
 .row .ic svg{width:19px;height:19px}
 .row small{display:block;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 .row span{font-size:15px;font-weight:700;word-break:break-word}
+
 .dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-.dcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:.2s}
+.dcard{
+  background:var(--glass-strong);border:1px solid var(--glass-border-soft);
+  border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:.2s;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
 .dcard:hover{border-color:var(--teal)}
-.dthumb{height:140px;background:var(--card);position:relative;display:grid;place-items:center;color:var(--amber);cursor:pointer;overflow:hidden}
+.dthumb{height:140px;background:rgba(255,255,255,.04);position:relative;display:grid;place-items:center;color:var(--amber);cursor:pointer;overflow:hidden}
 .dthumb svg{width:38px;height:38px;position:relative;z-index:0}
-.dthumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;background:var(--card)}
+.dthumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 .dbody{padding:12px 14px 6px;flex:1;min-width:0}
 .dbody h3{font-size:14.5px;font-weight:800;word-break:break-word;line-height:1.3}
 .dbody p{font-size:12px;color:var(--mute);margin-top:4px;word-break:break-word}
 .dbody .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.dbody .meta span{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--mute)}
+.dbody .meta span{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--glass);border:1px solid var(--glass-border-soft);color:var(--mute)}
 .dact{display:flex;gap:8px;padding:10px 14px 14px}
-.dact button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-size:12.5px;font-weight:700;padding:9px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.dact button{
+  flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  font:inherit;font-size:12.5px;font-weight:700;padding:9px;border-radius:10px;
+  background:var(--glass);border:1px solid var(--glass-border-soft);
+  color:var(--ink);cursor:pointer;
+}
 .dact svg{width:14px;height:14px}
-.dact .v{background:var(--teal);border-color:var(--teal);color:#042f2a}
-.dempty{color:var(--mute);font-size:14px;padding:26px 18px;text-align:center;border:1px dashed var(--line);border-radius:16px}
+.dact .v{background:linear-gradient(135deg,rgba(45,212,191,.85),rgba(13,148,136,.85));border-color:rgba(45,212,191,.6);color:#042f2a}
+.dempty{color:var(--mute);font-size:14px;padding:26px 18px;text-align:center;border:1px dashed var(--glass-border);border-radius:16px}
 
-.vw{position:fixed;inset:0;background:rgba(3,10,20,.86);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
+.vw{position:fixed;inset:0;background:rgba(3,10,20,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
 .vw.on{display:flex}
-.vwin{background:var(--panel);border:1px solid var(--line);border-radius:18px;width:min(920px,100%);max-height:92dvh;display:flex;flex-direction:column;overflow:hidden}
-.vwh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.vwin{
+  background:var(--glass-strong);
+  border:1px solid var(--glass-border);
+  border-radius:18px;width:min(920px,100%);max-height:92dvh;
+  display:flex;flex-direction:column;overflow:hidden;
+  backdrop-filter:blur(20px) saturate(150%);
+  -webkit-backdrop-filter:blur(20px) saturate(150%);
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+.vwh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--glass-border-soft)}
 .vwh h3{font-size:15px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.vwh .x{background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:7px 11px;cursor:pointer;font:inherit;font-weight:700}
-.vwb{flex:1;min-height:260px;display:grid;place-items:center;padding:14px;background:var(--bg);overflow:auto}
+.vwh .x{background:var(--glass);border:1px solid var(--glass-border-soft);color:var(--ink);border-radius:10px;padding:7px 11px;cursor:pointer;font:inherit;font-weight:700}
+.vwb{flex:1;min-height:260px;display:grid;place-items:center;padding:14px;background:rgba(0,0,0,.10);overflow:auto}
 .vwb img{max-width:100%;max-height:68dvh;border-radius:10px}
 .vwb .nop{text-align:center;color:var(--mute);font-size:14px;line-height:1.6;max-width:460px}
-.vwf{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--line);flex-wrap:wrap}
+.vwf{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--glass-border-soft);flex-wrap:wrap}
 .vwf .url{font-size:12px;color:var(--mute);word-break:break-all;flex:1;min-width:200px}
 
-.foot{display:flex;align-items:center;gap:14px;padding:12px 16px 22px}
-.nav{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;flex-shrink:0;transition:.2s}
+.foot{display:flex;align-items:center;gap:14px;padding:6px 6px 6px}
+.nav{
+  display:flex;align-items:center;justify-content:center;
+  width:46px;height:46px;border-radius:50%;
+  background:var(--glass);border:1px solid var(--glass-border-soft);
+  color:var(--ink);cursor:pointer;flex-shrink:0;transition:.2s;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
 .nav svg{width:18px;height:18px}
 .nav:hover:not(:disabled){border-color:var(--teal);color:var(--teal)}
 .nav:disabled{opacity:.3;cursor:default}
 .prog{flex:1;display:flex;flex-direction:column;gap:8px;min-width:0}
-.bar{height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar{height:4px;background:var(--glass);border-radius:4px;overflow:hidden}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--amber));transition:width .5s;width:0}
 .pl{font-size:12px;font-weight:700;color:var(--mute);display:flex;justify-content:space-between;gap:10px}
 
-.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;background:var(--teal);color:#04211d;font-weight:800;font-size:13px;padding:10px 18px;border-radius:999px;transition:.35s;pointer-events:none;z-index:9}
+.toast{
+  position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;
+  background:linear-gradient(135deg,rgba(45,212,191,.95),rgba(13,148,136,.95));
+  color:#04211d;font-weight:800;font-size:13px;padding:10px 18px;border-radius:999px;
+  transition:.35s;pointer-events:none;z-index:9;
+  box-shadow:0 10px 30px rgba(45,212,191,.35);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
 @media(min-width:900px){
   body{overflow:hidden}
-  .shell{grid-template-columns:260px 1fr;grid-template-rows:auto 1fr;gap:0 18px;padding:18px;height:100dvh}
-  .top{grid-column:1/-1;padding:8px 8px 20px}
+  .shell{
+    grid-template-columns:1fr 260px;
+    grid-template-rows:auto 1fr;
+    gap:14px 18px;padding:18px;height:100dvh;
+  }
+  .top{grid-column:1/-1;padding:12px 18px}
   .tabs{display:none}
-  .side{display:block !important;grid-column:1;grid-row:2;overflow-y:auto;padding-right:6px;scrollbar-width:thin}
+  .side{
+    display:block !important;
+    grid-column:2;grid-row:2;
+    overflow-y:auto;padding:10px 6px 10px 0;
+    scrollbar-width:thin;border-radius:20px;
+  }
   .side .tab{width:100%;justify-content:flex-start;margin-bottom:6px;padding:12px 16px;font-size:13.5px}
-  .track{grid-column:2;grid-row:2;margin:0}
+  .track{grid-column:1;grid-row:2;margin:0}
   .foot{display:none}
-  .slide{padding:10px 20px 30px}
+  .slide{padding:18px 22px 30px}
   .inner{max-width:100%}
   .ttl{font-size:34px}
   .sub{font-size:15px}
 }
 @media(min-width:900px) and (max-width:1100px){
-  .shell{grid-template-columns:220px 1fr}
+  .shell{grid-template-columns:1fr 220px}
   .who h1{font-size:22px}
   .kpis{grid-template-columns:repeat(2,1fr)}
   .grid3{grid-template-columns:repeat(2,1fr)}
@@ -189,17 +350,20 @@ ul.b li::before{content:"";position:absolute;left:2px;top:.7em;width:6px;height:
   .shell{height:auto;min-height:100dvh;grid-template-rows:auto auto auto auto}
   .track{height:72dvh;min-height:520px}
   .grid3,.kpis{grid-template-columns:1fr 1fr}
+  .who{text-align:left}
+  .chips{justify-content:flex-start}
+  .top-actions{order:3;width:100%}
+  .who{order:1;flex:1}
+  .avatar{order:2}
   .who h1{font-size:22px}.ttl{font-size:25px}
-  .top,.tabs,.foot{padding-left:16px;padding-right:16px}
   .side{display:none !important}
 }
 @media(max-width:560px){
   .grid3,.kpis{grid-template-columns:1fr}
   .exports{width:100%}
   .exports .btn{flex:1;justify-content:center}
-  .top-actions{width:100%;display:flex;gap:8px}
-  .theme-toggle{width:44px;height:44px;flex:0 0 auto;order:1}
-  .exports{order:2;flex:1}
+  .top-actions{width:100%;display:flex;gap:8px;flex-wrap:wrap}
+  .theme-toggle{width:44px;height:44px;flex:0 0 auto}
 }
 @media(prefers-reduced-motion:reduce){
   .slide{transition:none}
@@ -210,14 +374,6 @@ ul.b li::before{content:"";position:absolute;left:2px;top:.7em;width:6px;height:
 <body>
 <div class="shell">
  <header class="top">
-  <button class="avatar" id="avatarBtn" aria-label="View profile photo">
-    <img id="avatarImg" src="lauretta.png" alt="Lauretta Okonkwo">
-  </button>
-  <div class="who">
-   <h1 id="name"></h1>
-   <div class="hl" id="headline"></div>
-   <div class="chips" id="chips"></div>
-  </div>
   <div class="top-actions">
    <button class="theme-toggle" id="themeBtn" aria-label="Toggle light and dark mode">
      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -229,6 +385,14 @@ ul.b li::before{content:"";position:absolute;left:2px;top:.7em;width:6px;height:
     <button class="btn" onclick="dlResume('txt')" id="bt"></button>
    </div>
   </div>
+  <div class="who">
+   <h1 id="name"></h1>
+   <div class="hl" id="headline"></div>
+   <div class="chips" id="chips"></div>
+  </div>
+  <button class="avatar" id="avatarBtn" aria-label="View profile photo">
+    <img id="avatarImg" src="lauretta.png" alt="MBA Dilli Larai">
+  </button>
  </header>
 
  <nav class="tabs" id="tabs" aria-label="Resume sections"></nav>
@@ -277,78 +441,69 @@ const RESUME_URL = 'https://laurettaresume.vercel.app/';
 
 /* ================= RESUME DATA ================= */
 const R={
- name:'LAURETTA OKONKWO',
- headline:'Registered Midwife · Monitoring & Evaluation Specialist',
- email:'laurettalinus91@gmail.com',
- phone:'+2348138688454',
- addr:'MOQ1 Flat 4 Nigerian Airforce Base Yola, Adamawa State',
+ name:'MBA DILLI (ABEKU) LARAI',
+ headline:'GBV / Protection Case Management Specialist',
+ email:'abekalarai@gmail.com',
+ phone:'07030510665 / 08132181168',
+ addr:'Adasolid Estate off FRSC Numan Road, Yola, Adamawa State, Nigeria',
  loc:'Yola, Adamawa State',
- objective:'Dedicated and detail-oriented data management professional with over five years of progressive experience in supporting health and development projects, specializing in monitoring and evaluation, data reporting, and office coordination. I aim to leverage my strong organizational, interpersonal, and analytical skills to contribute to the effective operations of a dynamic and mission-driven organization. My goal is to support program implementation through efficient documentation, communication, and logistical support, while ensuring compliance with organizational policies and contributing to sustainable development goals. I am passionate about public service and committed to maintaining operational excellence, fostering team collaboration, and continuously improving systems that enable impactful project delivery.',
- stats:[['5+','Years Experience'],['4','Professional Roles'],['5','Qualifications'],['3','Referees']],
- highlights:[' Registered Midwife', 'Monitoring & Evaluation','Data Quality Assurance','LAMISplus / DHIS2','Data Reporting','Office Coordination'],
+ objective:'Dedicated GBV/Protection Case Management and MEAL/Strategic Information professional with over 8 years of experience supporting USAID, EU, UN, and other donor-funded programs in GBV response, protection, HIV programming, and humanitarian interventions. Proven expertise in GBV case management, referral pathways, SOP development, capacity building, and data management systems including GBVIMS, DHIS2, LAMISPlus, and ODK Collect. Demonstrated track record in training delivery, coaching and mentorship, and coordination with government authorities, UN agencies, and local partners across Adamawa and Northeast Nigeria. Strong background in survivor-centered case management, protection mainstreaming, gender integration, and community engagement. Committed to upholding data protection, ethical practices, and donor compliance in all programming.',
+ stats:[['8+','Years Experience'],['6','Professional Roles'],['2','Qualifications'],['4','Training Areas']],
+ highlights:['GBV Case Management','Protection Case Management','Survivor-Centered Approach','Referral Pathways','GBVIMS / DHIS2 / LAMISPlus','Gender Mainstreaming'],
  skills:[
-  ['Professional Skills',['Quality assurance','Data management','Organizational skills','Analytical skills','Interpersonal and written communication','Flexible and adaptable']],
-  ['Systems & Software',['LAMISplus','DHIS2','Microsoft Office']]
+  ['GBV & Protection',['GBV Case Management','Protection Case Management','Survivor-Centered Approach','GBV Prevention & Response','Referral Pathways','Cash-for-Protection (C4P)','Gender Mainstreaming','SOP/Tool Development']],
+  ['MEAL & Data Systems',['Strategic Information','GBVIMS','DHIS2','LAMISPlus','ODK Collect','Data Quality Assurance (DQA)','Indicator Tracking','Donor Reporting','Data Analysis & Visualization']],
+  ['Capacity Building',['Training & Facilitation','Coaching & Mentorship','Community Engagement','Stakeholder Coordination']],
+  ['Reporting & Analysis',['Microsoft Excel','Data Cleaning','Analytical Reporting','Performance Monitoring','Knowledge Management']]
  ],
  docs:[
-  {title:'Certificate of Registration – Registered Midwife', year:'2025', org:'Nursing and Midwifery Council of Nigeria', url:'images/certificates/midwife-registration-2025.jpg'},
-  {title:'B.Tech. Laboratory Technology Certificate',          year:'2019', org:'Modibbo Adama University of Technology, Yola', url:'DEGREE STATEMENT OF RESULT_page-0001.jpg'},
-  {title:'MSc in Public Health (IN VIEW)',                   year:'2026', org:'NOUN, Yola',                                  url:'imge'},
-  {title:'Diploma – Science Laboratory Technology',          year:'2013', org:'Adamawa State Polytechnic, Yola',             url:'DIPLOMA STATEMENT OF RESULT_page-0001.jpg'},
-  {title:'NYSC Discharge Certificate',                       year:'2020', org:'National Youth Service Corps',                url:'NATIONAL YOUTH CERT_page-0001.jpg'},
+  {title:'Strategic Information and LAMISPlus Management', year:'2022', org:'SFH / CARE 2', url:'images/certificates/strategic-info-lamisplus-2022.jpg'},
+  {title:'Data Management and Reporting',                 year:'2019', org:'Chemonics', url:'images/certificates/data-management-reporting-2019.jpg'},
+  {title:'Data Review and Validation',                    year:'2018', org:'FHI 360', url:'images/certificates/data-review-validation-2018.jpg'},
+  {title:'Gender and Monitoring & Evaluation',            year:'',     org:'Global Health eLearning Centre', url:'images/certificates/gender-me-ghlearning.jpg'},
+  {title:'Food Programme Implementation',                 year:'2019', org:'World Food Programme (WFP)', url:'images/certificates/food-programme-wfp-2019.jpg'},
  ],
- langs:['English','Igbo','Hausa'],
+ langs:['English','Hausa','Igbo'],
  exp:[
-  {t:'Registered Midwife',o:'State Specialist Hospital, Yola',d:'2023 – 2025',b:[
-   'Assisted in providing antenatal care to pregnant women, including routine assessments and health education.',
-   'Supported labour monitoring and delivery care.',
-   'Assisted with postnatal care for mothers and newborns.',
-   'Monitored maternal and newborn vital signs and reported abnormalities to supervising healthcare professionals.',
-   'Provided health education on breastfeeding, maternal nutrition, personal hygiene, and newborn care.',
-   'Maintained accurate patient records and clinical documentation.',
-   'Followed infection prevention and control procedures to promote patient safety.',
-   'Supported family planning counselling and reproductive health education.',
-   'Assisted in the administration of routine immunization.']},
-   {t:'M&E Assistant',o:'Achieving Health Nigeria Initiative AHNi – Yola State Office, Adamawa',d:'08/2025 – Present',b:[
-   'Data Entry and Monitory: Perform paper and electronic data entry, ensure accurate documentation of HIV services, collaborate with medical staff, and prepare daily summary reports for Daily Performance Tracker.',
-   'Data Upload and Reporting: Update and submit the viral load tracker, Upload EMR  to the National Data Repository (NDR) daily, and lead situation room meeting to provide updates.',
-   'Carry out data reconciliation and analysis, cross-checking records across data systems to resolve discrepancies and support accurate programme reporting.']},
-  {t:'M&E Assistant',o:'Society for Family Health – Yola State Office, Adamawa',d:'08/2025 – 08/2026',b:[
-   'Assisted the technical team in coordinating M&E for ART, TB/HIV, and other related activities at Yola North and Fufore Community Centre.',
-   'Assisted the technical team to coordinate the submission of daily, weekly, and monthly reports (DHIS and LAMIS files, including RADET files, PrEP reports, and TB reports) to the state.',
-   'Ensured post-clinic reviews are conducted daily and used to drive project implementation.',
-   'Supported the technical team to work with state-level staff and government counterparts to provide support and guidance on program/project monitoring and evaluation activities and on donor and Government of Nigeria reporting requirements.',
-   'Supported the state team to work with local partners on the correct implementation and use of monitoring and evaluation tools, and adherence to complete, correct and timely reporting.',
-   'Supported and conducted routine monitoring visits to project sites, including data quality assessments (DQAs) using official tools, oversaw the preparation of monthly reports, and provided supportive supervision.',
-   'Assisted in ensuring that the quality of program/project activities adheres to SOPs by supporting the development and implementation of appropriate quality mechanisms.',
-   'Performed other duties as assigned by the Program Coordinator, MERL Officer or any of the Technical Officers.']},
-  {t:'Data Entry Clerk',o:'Society for Family Health',d:'02/2022 – 07/2025',b:[
-   'Entered all relevant data into the necessary electronic medical records (LAMISplus and DHIS2).',
-   'Kept track of all records and ensured all source documents and registers are duly validated and signed as due.',
-   'Collected all relevant data from various units for reporting.',
-   'Evaluated, monitored and triangulated data.',
-   'Generated and prepared monthly summary reports and ensured they were entered on DHIS2.',
-   'Entered daily data reports into the daily Performance Tracker (DPT).',
-   'Generated and monitored defaulters, IIT, and all clients due for various services, and captured clients\u2019 biometrics.']},
-  {t:'Data Entry Clerk (Volunteer)',o:'FHI 360 – ART Unit, Yola Specialist Hospital, Adamawa',d:'09/2019 – 05/2020',b:[
-   'Entered all relevant data into the necessary electronic medical record (LAMIS and DHIS2).',
-   'Kept track of all records and ensured all source documents and registers are duly validated and signed as due.',
-   'Collected all relevant data from various units for reporting.',
-   'Evaluated, monitored and triangulated data.',
-   'Generated and prepared monthly summary reports and ensured they were entered on DHIS2.',
-   'Entered daily data reports into the daily Performance Tracker (DPT).',
-   'Generated and monitored defaulters, IIT, and all clients due for various services.']}
+  {t:'MEAL Assistant',o:'Society for Family Health (SFH) – USAID/PEPFAR CARE 2 Project · Yola, Adamawa State',d:'February 2022 – Present',b:[
+   'Supported GBV and HIV case management data systems, ensuring accurate documentation, referral tracking, and reporting across supported health facilities using LAMISPlus and DHIS2.',
+   'Conducted data validation, verification, and cleaning to ensure high-quality data for GBV prevention and response programming.',
+   'Generated performance monitoring and analytical reports to support donor reporting and evidence-based decision-making.',
+   'Strengthened referral pathway documentation and follow-up mechanisms, improving client tracking and service continuity.',
+   'Provided coaching and mentorship to facility and community-based staff on data management, ethical case documentation, and reporting compliance.',
+   'Supported data review sessions and performance monitoring activities, identifying gaps and implementing corrective actions.']},
+  {t:'MEAL Assistant Coordinator',o:'ProHealth International (PHI) – USAID/PEPFAR ICHSSA 4 Project · Yola, Adamawa State',d:'November 2020 – January 2022',b:[
+   'Provided technical oversight for monitoring and evaluation of community and facility-based case management services for children, adolescents living with HIV (C/ALHIV), and caregivers.',
+   'Tracked and analyzed referral, linkage, retention, and adherence data, supporting interventions that improved treatment continuity and protection outcomes.',
+   'Strengthened data coordination between case managers, health facilities, and community structures, enhancing client tracking, referral completion, and follow-up.',
+   'Supported data quality assessments and contributed to performance review meetings to improve service delivery.',
+   'Contributed to evidence-based decision-making through regular analysis of program trends, gaps, and outcomes.']},
+  {t:'MEAL Officer',o:'Clearview Integrity Foundation – EU-UN Spotlight Initiative · Yola, Adamawa State',d:'December 2019 – January 2022',b:[
+   'Supported monitoring and evaluation of community-based GBV prevention and response programs, ensuring timely collection, analysis, and reporting of program data.',
+   'Tracked and documented survivor-centered case management services, referral pathways, and protection interventions.',
+   'Contributed to the development, dissemination, and monitoring of GBV Standard Operating Procedures (SOPs) to strengthen service quality and compliance.',
+   'Collaborated with community leaders, service providers, and stakeholders to monitor access to protection, psychosocial support, and referral services.',
+   'Supported multi-sectoral GBV referral mechanisms, contributing to improved service coordination and outcomes.',
+   'Prepared periodic reports, maintained program databases, and supported donor reporting and performance tracking.']},
+  {t:'Monitoring and Evaluation Intern',o:'FHI 360 – USAID SIDHAS Project · Yola, Adamawa State',d:'August 2019 – November 2020',b:[
+   'Supported routine monitoring, data collection, verification, and reporting across supported health facilities.',
+   'Maintained quality HIV program data through LAMISPlus and DHIS2 reporting systems.',
+   'Assisted with data analysis, performance tracking, and preparation of program reports.',
+   'Supported data quality assessments and identification of reporting gaps.',
+   'Contributed to generation of analytical reports for program improvement and evidence-based management.']},
+  {t:'United Nations Volunteer',o:'United Nations World Food Programme (UN WFP) · Guyuk, Adamawa State',d:'May 2017 – April 2019',b:[
+   'Supported implementation and monitoring of food security and livelihood interventions targeting vulnerable households.',
+   'Conducted beneficiary assessments, monitoring visits, and field verification activities.',
+   'Supported data collection, documentation, and reporting in line with humanitarian program standards.',
+   'Prepared field reports, success stories, and program updates.',
+   'Supported accountability to affected populations through community engagement activities.']}
  ],
  edu:[
-  {t:'Certificate: Registered Midwife',o:'College of Nursing Sciences Yola, Adamawa State',d:'09/2025'},
-  {t:'MSc: Public Health',o:'NOUN, Yola, Adamawa, Nigeria',d:'In view'},
-  {t:'Bachelor of  Technology: Laboratory Technology',o:'Modibbo Adama University of Technology, Yola, Adamawa, Nigeria',d:'06/2019'},
-  {t:'Diploma: Science Laboratory Technology',o:'Adamawa State Polytechnic, Yola',d:'01/2013'}
+  {t:'M.Ed. Educational Administration and Planning (In view)',o:'—',d:'June 2026'},
+  {t:'B.Sc. Geography Education',o:'Nasarawa State University, Keffi',d:'2014'}
  ],
  refs:[
-  {n:'Usman Bwari Haliru',r:'Regional Team Lead – Society for Family Health',p:'+2348064914140',e:'Haliruusman90@gmail.com'},
-  {n:'Anthony Obalim',r:'Squadron Leader – Nigerian Airforce',p:'+2347036419820',e:'obalisko2017@gmail.com'},
-  {n:'Sunday Onoja',r:'State Lead and Clubfoot Optimizer – Positive Care Development Foundation',p:'+2348138686658',e:'galantmagnate@gmail.com'}
+  {n:'Available upon request',r:'References will be provided on request.',p:'',e:''}
  ]
 };
 
@@ -390,15 +545,15 @@ const SEC=[
   h:()=>`<div class="grid3">${R.skills.map(g=>`<div class="panel grp"><h4>${esc(g[0])}</h4><div class="pills">${g[1].map(x=>`<span class="pill">${esc(x)}</span>`).join('')}</div></div>`).join('')}
    <div class="panel grp"><h4>Languages</h4><div class="pills">${R.langs.map(x=>`<span class="pill">${esc(x)}</span>`).join('')}</div></div></div>`},
  {k:'Education',i:'cap',kick:'Qualifications',t:'Education',
-  h:()=>R.edu.map(e=>`<div class="panel edu"><div class="ic">${ic('cap')}</div><div><h3>${esc(e.t)}</h3><p>${esc(e.o)}</p></div><span class="when">${esc(e.d)}</span></div>`).join('')},
+  h:()=>R.edu.map(e=>`<div class="edu"><div class="ic">${ic('cap')}</div><div><h3>${esc(e.t)}</h3><p>${esc(e.o)}</p></div><span class="when">${esc(e.d)}</span></div>`).join('')},
  {k:'Referees',i:'users',kick:'References',t:'Referees',
-  h:()=>`<div class="grid3">${R.refs.map(r=>`<div class="panel ref"><div class="av">${esc(r.n.split(' ').map(w=>w[0]).slice(0,2).join(''))}</div><div><h3>${esc(r.n)}</h3><div class="r">${esc(r.r)}</div><a href="${tel(r.p)}">${ic('phone')}${esc(r.p)}</a><a href="mailto:${esc(r.e)}">${ic('mail')}${esc(r.e)}</a></div></div>`).join('')}</div>`},
+  h:()=>`<div class="grid3">${R.refs.map(r=>`<div class="ref"><div class="av">${esc(r.n.split(' ').map(w=>w[0]).slice(0,2).join(''))}</div><div><h3>${esc(r.n)}</h3><div class="r">${esc(r.r)}</div>${r.p?`<a href="${tel(r.p)}">${ic('phone')}${esc(r.p)}</a>`:''}${r.e?`<a href="mailto:${esc(r.e)}">${ic('mail')}${esc(r.e)}</a>`:''}</div></div>`).join('')}</div>`},
  {k:'Documents',i:'file',kick:'Supporting files',t:'Documents',
   h:()=>`<div id="docslot"></div>`},
  {k:'Contact',i:'mail',kick:'Get in touch',t:'Contact',
   h:()=>`<div class="big">
    <a class="row" href="mailto:${esc(R.email)}"><div class="ic">${ic('mail')}</div><div><small>Email</small><span>${esc(R.email)}</span></div></a>
-   <a class="row" href="${tel(R.phone)}"><div class="ic">${ic('phone')}</div><div><small>Phone</small><span>${esc(R.phone)}</span></div></a>
+   <a class="row" href="${tel(R.phone.split('/')[0].trim())}"><div class="ic">${ic('phone')}</div><div><small>Phone</small><span>${esc(R.phone)}</span></div></a>
    <div class="row"><div class="ic">${ic('pin')}</div><div><small>Address</small><span>${esc(R.addr)}</span></div></div>
   </div>
   <div class="label">Download this resume</div>
@@ -408,7 +563,7 @@ const SEC=[
 /* ================= RENDER ================= */
 $('name').textContent=R.name;
 $('headline').textContent=R.headline;
-$('chips').innerHTML=`<a class="chip" href="mailto:${esc(R.email)}">${ic('mail')}${esc(R.email)}</a><a class="chip" href="${tel(R.phone)}">${ic('phone')}${esc(R.phone)}</a><span class="chip">${ic('pin')}${esc(R.loc)}</span>`;
+$('chips').innerHTML=`<a class="chip" href="mailto:${esc(R.email)}">${ic('mail')}${esc(R.email)}</a><a class="chip" href="${tel(R.phone.split('/')[0].trim())}">${ic('phone')}${esc(R.phone)}</a><span class="chip">${ic('pin')}${esc(R.loc)}</span>`;
 $('bp').innerHTML=ic('down')+'PDF';$('bd').innerHTML=ic('down')+'Word';$('bt').innerHTML=ic('down')+'Text';
 $('track').innerHTML=SEC.map((s,i)=>`<section class="slide" data-s="${i?'future':'active'}" aria-label="${esc(s.t)}"><div class="inner"><div class="kick">${String(i+1).padStart(2,'0')} · ${esc(s.kick)}</div><div class="ttl">${esc(s.t)}</div><div class="sub">${esc(R.name.split(' ')[0]+"'s resume: "+s.k.toLowerCase())}</div>${s.h()}</div></section>`).join('');
 
@@ -513,7 +668,7 @@ ui();
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)}
 
 /* ================= EXPORTS ================= */
-const FN='Lauretta_Okonkwo_Resume';
+const FN='Mba_Dilli_Larai_Resume';
 async function getDL(){try{if(window.claude&&window.claude.use)return await window.claude.use('downloads')}catch(e){}return null}
 function browserSave(blob,name){
  const url=URL.createObjectURL(blob),a=document.createElement('a');
@@ -537,11 +692,7 @@ async function dlResume(f){
  }
 }
 
-/* =====================================================================
-   PDF — clean, professional layout.
-   Supporting Documents section shows title, year · org, and an
-   "Attached" pill that is a clickable hyperlink to RESUME_URL.
-   ===================================================================== */
+/* ================= PDF ================= */
 function buildPdf(){
  if(!window.jspdf)throw new Error('PDF library did not load');
  const d=new window.jspdf.jsPDF({unit:'pt',format:'a4'});
@@ -579,20 +730,18 @@ function buildPdf(){
    F('bold',11,DK);d.text(A(t),M,y);
    F('normal',9,MUTE);d.text(A(dt),W-M,y,{align:'right'});
    y+=13;
-   F('normal',9.5,TL);d.text(A(o),M,y);
-   y+=14;
+   F('normal',9.5,TL);d.splitTextToSize(A(o),CW).forEach(l=>{d.text(l,M,y);y+=12.5});
+   y+=3;
  };
 
- /* ---------- HEADER BAND ---------- */
  d.setFillColor(...TL);d.rect(0,0,W,116,'F');
  d.setFillColor(...AM);d.rect(0,116,W,3,'F');
- F('bold',26,[255,255,255]);d.text(R.name,M,50);
+ F('bold',24,[255,255,255]);d.text(R.name,M,50);
  F('normal',11.5,[207,250,244]);d.text(A(R.headline),M,72);
  F('normal',9.2,[255,255,255]);d.text(A(R.email+'   ·   '+R.phone),M,94);
  F('normal',9.2,[255,255,255]);d.text(A(R.addr),M,108);
  y=142;
 
- /* ---------- STATS ROW ---------- */
  const bw=(CW-36)/4;
  R.stats.forEach((s,i)=>{
    const x=M+i*(bw+12);
@@ -603,11 +752,9 @@ function buildPdf(){
  });
  y+=66;
 
- /* ---------- OBJECTIVE ---------- */
- sec('Career Objective');
+ sec('Professional Summary');
  para(R.objective,9.6);
 
- /* ---------- SKILLS ---------- */
  sec('Skills & Tools');
  R.skills.forEach(([cat,items])=>{
    F('bold',9.6,DK);d.text(A(cat),M,y);y+=12.5;
@@ -616,7 +763,6 @@ function buildPdf(){
    y+=5;
  });
 
- /* ---------- EXPERIENCE ---------- */
  sec('Work Experience');
  R.exp.forEach((e,idx)=>{
    role(e.t,e.d,e.o);
@@ -624,54 +770,42 @@ function buildPdf(){
    if(idx<R.exp.length-1){y+=8}
  });
 
- /* ---------- EDUCATION ---------- */
  sec('Education');
  R.edu.forEach(e=>role(e.t,e.d,e.o));
 
- /* ---------- REFEREES ---------- */
  sec('Referees');
  R.refs.forEach(r=>{
-   need(46);
+   need(40);
    F('bold',10,DK);d.text(A(r.n),M,y);y+=12.5;
    F('normal',9,GR);d.text(A(r.r),M,y);y+=12;
-   F('normal',9,TL);d.text(A(r.p+'   ·   '+r.e),M,y);y+=16;
+   if(r.p||r.e){F('normal',9,TL);d.text(A([r.p,r.e].filter(Boolean).join('   ·   ')),M,y);y+=16}
+   else y+=4;
  });
 
- /* ---------- LANGUAGES ---------- */
  sec('Languages');
  para(R.langs.join('  ·  '));
 
- /* ---------- SUPPORTING DOCUMENTS ----------
-    Title + year · org + "Attached" pill that is a clickable
-    hyperlink pointing to RESUME_URL.                              */
  if(DOCS.length){
-   sec('Supporting Documents');
+   sec('Professional Training & Certifications');
    DOCS.forEach(x=>{
      need(42);
-     /* Title */
      F('bold',9.8,DK);d.text(A(x.title),M,y);
-
-     /* "Attached" pill: hyperlinked to RESUME_URL */
      const tag='Attached';
      F('bold',7.6,[4,47,42]);
      const tw=d.getTextWidth(tag)+14;
-     const tx = W - M - tw;         /* left edge of pill */
-     const ty = y - 8;              /* top edge of pill */
+     const tx = W - M - tw;
+     const ty = y - 8;
      d.setFillColor(...AM);
      d.roundedRect(tx, ty, tw, 13, 6, 6, 'F');
      d.text(tag, tx + tw/2, y + 1.5, {align:'center'});
-     /* Clickable region covering the pill */
      d.link(tx, ty, tw, 13, {url: RESUME_URL});
-
      y+=12;
-     /* Meta: year · organisation */
      const meta=[x.year,x.org].filter(Boolean).join('   ·   ');
      if(meta){F('normal',9,GR);d.text(A(meta),M,y);y+=12}
      y+=4;
    });
  }
 
- /* ---------- FOOTER on every page ---------- */
  const n=d.getNumberOfPages();
  for(let i=1;i<=n;i++){
    d.setPage(i);
@@ -684,7 +818,7 @@ function buildPdf(){
  return d.output('blob');
 }
 
-/* ---- WORD ---- */
+/* ================= WORD ================= */
 function buildDoc(){
  const e=esc;
  const job=(t,dt,o)=>`<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:9pt"><tr><td><h3>${e(t)}</h3></td><td class="dt" align="right">${e(dt)}</td></tr></table><p class="org">${e(o)}</p>`;
@@ -698,18 +832,18 @@ h3{font-size:11pt;color:#0f172a;margin:0}p{margin:2pt 0}ul{margin:2pt 0 4pt 16pt
 a.doclink{color:#0f766e;text-decoration:none;font-weight:bold}</style></head><body>
 <table width="100%" cellpadding="14" cellspacing="0"><tr><td bgcolor="#0f766e"><h1>${e(R.name)}</h1><p style="color:#ccfbf1;font-size:12pt">${e(R.headline)}</p><p style="color:#fff;font-size:9.5pt">${e(R.email)} &nbsp;|&nbsp; ${e(R.phone)}</p><p style="color:#fff;font-size:9.5pt">${e(R.addr)}</p></td></tr></table>
 <table class="st" width="100%" cellspacing="0" style="margin-top:8pt"><tr>${R.stats.map(s=>`<td><span class="sn">${s[0]}</span><br><span class="sl">${e(s[1])}</span></td>`).join('')}</tr></table>
-<h2>Career Objective</h2><p>${e(R.objective)}</p>
+<h2>Professional Summary</h2><p>${e(R.objective)}</p>
 <h2>Skills &amp; Tools</h2><table class="sk" width="100%">${R.skills.map(c=>`<tr><td width="30%"><b>${e(c[0])}</b></td><td>${e(c[1].join(', '))}</td></tr>`).join('')}</table>
 <h2>Work Experience</h2>${R.exp.map(x=>job(x.t,x.d,x.o)+ul(x.b)).join('')}
 <h2>Education</h2>${R.edu.map(x=>job(x.t,x.d,x.o)).join('')}
-<h2>Referees</h2><table class="sk" width="100%">${R.refs.map(r=>`<tr><td width="34%"><b>${e(r.n)}</b></td><td>${e(r.r)}<br>${e(r.p)} &nbsp;|&nbsp; ${e(r.e)}</td></tr>`).join('')}</table>
+<h2>Referees</h2><table class="sk" width="100%">${R.refs.map(r=>`<tr><td width="34%"><b>${e(r.n)}</b></td><td>${e(r.r)}${(r.p||r.e)?`<br>${e([r.p,r.e].filter(Boolean).join(' | '))}`:''}</td></tr>`).join('')}</table>
 <h2>Languages</h2><p>${R.langs.map(e).join(', ')}</p>
-${DOCS.length?`<h2>Supporting Documents</h2><ul>${DOCS.map(x=>`<li><a class="doclink" href="${e(RESUME_URL)}"><b>${e(x.title)}</b></a>${(x.year||x.org)?` — ${e([x.year,x.org].filter(Boolean).join(', '))}`:''}</li>`).join('')}</ul>`:''}
+${DOCS.length?`<h2>Professional Training &amp; Certifications</h2><ul>${DOCS.map(x=>`<li><a class="doclink" href="${e(RESUME_URL)}"><b>${e(x.title)}</b></a>${(x.year||x.org)?` — ${e([x.year,x.org].filter(Boolean).join(', '))}`:''}</li>`).join('')}</ul>`:''}
 </body></html>`;
  return new Blob(['\ufeff',h],{type:'application/msword'});
 }
 
-/* ---- TEXT ---- */
+/* ================= TEXT ================= */
 function buildTxt(){
  const W=80;
  const wrap=(s,w,first='',rest='')=>{const out=[];let line=first,empty=true;A(s).split(/\s+/).forEach(x=>{if(!empty&&(line+' '+x).length>w){out.push(line);line=rest+x}else line+=(empty?'':' ')+x;empty=false});out.push(line);return out.join('\n')};
@@ -717,15 +851,14 @@ function buildTxt(){
  const sec=t=>L.push('','',A(t).toUpperCase(),'-'.repeat(W));
  const ent=(t,dt,o)=>{const l=A(t),r=A(dt);L.push('',l+' '.repeat(Math.max(2,W-l.length-r.length))+r,wrap(o,W))};
  L.push(R.name,A(R.headline),A(R.addr),A(R.email)+' | '+R.phone,'='.repeat(W));
- sec('Career Objective');L.push(wrap(R.objective,W));
+ sec('Professional Summary');L.push(wrap(R.objective,W));
  sec('Key Figures');L.push(R.stats.map(s=>s[1]+': '+s[0]).join('\n'));
  sec('Skills & Tools');R.skills.forEach(([c,i])=>L.push(c+':',wrap(i.join(', '),W,'  ','  ')));
  L.push('Languages: '+R.langs.join(', '));
  sec('Work Experience');R.exp.forEach(x=>{ent(x.t,x.d,x.o);x.b.forEach(b=>L.push(wrap(b,W,'  - ','    ')))});
  sec('Education');R.edu.forEach(x=>{ent(x.t,x.d,x.o)});
- sec('Referees');R.refs.forEach(r=>{L.push('',r.n,wrap(r.r,W),'  '+r.p+' | '+r.e)});
- /* Supporting documents: link text is the title; the URL is on the same line so it's clickable in editors/terminals that auto-linkify */
- if(DOCS.length){sec('Supporting Documents');DOCS.forEach(x=>{
+ sec('Referees');R.refs.forEach(r=>{L.push('',r.n,wrap(r.r,W));if(r.p||r.e)L.push('  '+[r.p,r.e].filter(Boolean).join(' | '))});
+ if(DOCS.length){sec('Professional Training & Certifications');DOCS.forEach(x=>{
    const meta=[x.year,x.org].filter(Boolean).join(' · ');
    L.push('','  - '+x.title+(meta?'  ('+meta+')':''));
    L.push(wrap(RESUME_URL,W,'    ','    '));
